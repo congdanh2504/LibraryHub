@@ -2,6 +2,8 @@ package com.example.libraryhub.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.libraryhub.model.User
+import com.google.gson.Gson
 
 object AppPreferences {
     private const val NAME = "SpinKotlin"
@@ -22,5 +24,17 @@ object AppPreferences {
         get() = preferences.getString("jwt", "")
         set(value) = preferences.edit {
             it.putString("jwt", value)
+        }
+
+    var user: User?
+        get() {
+            val gson = Gson()
+            val json: String? = preferences.getString("user", "");
+            return gson.fromJson(json, User::class.java);
+        }
+        set(value) = preferences.edit {
+            val gson = Gson()
+            val json = gson.toJson(value)
+            it.putString("user", json)
         }
 }

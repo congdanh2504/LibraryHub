@@ -1,6 +1,7 @@
 package com.example.libraryhub.di
 
 import com.example.libraryhub.api.AuthAPI
+import com.example.libraryhub.api.CategoryAPI
 import com.example.libraryhub.utils.AppPreferences
 import com.example.libraryhub.utils.Constants
 import dagger.Module
@@ -32,4 +33,14 @@ object Modules {
             }.build())
             .build()
             .create(AuthAPI::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCategoryAPIInstance(BASE_URL: String) : CategoryAPI =
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(CategoryAPI::class.java)
 }

@@ -14,13 +14,13 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.LibraryHub">
         <activity
-            android:name=".SignUpActivity"
+            android:name=".view.activity.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".view.activity.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".view.activity.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

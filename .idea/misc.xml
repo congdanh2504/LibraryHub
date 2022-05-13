@@ -3,14 +3,35 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/LibraryHub/app/src/main/res/drawable/book_borrow.xml" value="0.1925" />
         <entry key="..\:/LibraryHub/app/src/main/res/drawable/custom_input.xml" value="0.1685" />
+        <entry key="..\:/LibraryHub/app/src/main/res/drawable/ic_baseline_add_box_24.xml" value="0.287" />
+        <entry key="..\:/LibraryHub/app/src/main/res/drawable/ic_baseline_auto_stories_24.xml" value="0.1925" />
+        <entry key="..\:/LibraryHub/app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.287" />
         <entry key="..\:/LibraryHub/app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.1685" />
+        <entry key="..\:/LibraryHub/app/src/main/res/drawable/ic_baseline_library_books_24.xml" value="0.287" />
         <entry key="..\:/LibraryHub/app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.1685" />
+        <entry key="..\:/LibraryHub/app/src/main/res/drawable/ic_baseline_notifications_24.xml" value="0.287" />
+        <entry key="..\:/LibraryHub/app/src/main/res/drawable/ic_baseline_qr_code_24.xml" value="0.287" />
         <entry key="..\:/LibraryHub/app/src/main/res/drawable/line.xml" value="0.1685" />
         <entry key="..\:/LibraryHub/app/src/main/res/drawable/stroke.xml" value="0.1685" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/activity_login.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/activity_main.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/activity_sign_up.xml" value="0.35572916666666665" />
+        <entry key="..\:/LibraryHub/app/src/main/res/layout/cart_item.xml" value="0.3697916666666667" />
+        <entry key="..\:/LibraryHub/app/src/main/res/layout/comment_item.xml" value="0.3697916666666667" />
+        <entry key="..\:/LibraryHub/app/src/main/res/layout/detail_card.xml" value="0.3697916666666667" />
+        <entry key="..\:/LibraryHub/app/src/main/res/layout/discover_children_item.xml" value="0.3697916666666667" />
+        <entry key="..\:/LibraryHub/app/src/main/res/layout/fragment_discover.xml" value="0.3697916666666667" />
+        <entry key="..\:/LibraryHub/app/src/main/res/layout/fragment_home.xml" value="0.3697916666666667" />
+        <entry key="..\:/LibraryHub/app/src/main/res/layout/fragment_profile.xml" value="0.184375" />
+        <entry key="..\:/LibraryHub/app/src/main/res/layout/fragment_profile_info.xml" value="0.3697916666666667" />
+        <entry key="..\:/LibraryHub/app/src/main/res/layout/fragment_profile_payment.xml" value="0.3697916666666667" />
+        <entry key="..\:/LibraryHub/app/src/main/res/layout/fragment_search.xml" value="0.3697916666666667" />
+        <entry key="..\:/LibraryHub/app/src/main/res/layout/search_item.xml" value="0.3697916666666667" />
+        <entry key="..\:/LibraryHub/app/src/main/res/layout/subscription_item.xml" value="0.3697916666666667" />
+        <entry key="..\:/LibraryHub/app/src/main/res/layout/top_navbar.xml" value="0.3697916666666667" />
+        <entry key="..\:/LibraryHub/app/src/main/res/menu/main.xml" value="0.184375" />
       </map>
     </option>
   </component>

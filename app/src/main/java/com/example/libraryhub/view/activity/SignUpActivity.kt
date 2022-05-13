@@ -1,4 +1,4 @@
-package com.example.libraryhub
+package com.example.libraryhub.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

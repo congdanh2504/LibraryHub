@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/custom_input"
     android:backgroundTint="@color/light_gray"
-    tools:context=".LoginActivity">
+    tools:context=".view.activity.LoginActivity">
 
 
     <ImageView

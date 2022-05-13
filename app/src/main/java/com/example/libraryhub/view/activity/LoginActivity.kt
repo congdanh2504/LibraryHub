@@ -1,11 +1,15 @@
-package com.example.libraryhub
+package com.example.libraryhub.view.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.libraryhub.R
 import com.example.libraryhub.databinding.ActivityLoginBinding
+import com.example.libraryhub.utils.AppPreferences
 import com.example.libraryhub.viewmodel.LoginViewModel
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -13,7 +17,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import dagger.hilt.android.AndroidEntryPoint
-import org.json.JSONObject
 
 
 @AndroidEntryPoint
@@ -38,8 +41,8 @@ class LoginActivity : AppCompatActivity() {
         }
         loginBinding.googleSignIn.setSize(SignInButton.SIZE_STANDARD)
         loginBinding.googleSignIn.setOnClickListener {
-            val signInIntent: Intent = mGoogleSignInClient.getSignInIntent()
-            startActivityForResult(signInIntent, RC_SIGN_IN)
+            val signInIntent: Intent = mGoogleSignInClient.signInIntent
+            resultLauncher.launch(signInIntent)
         }
         loginBinding.signInButton.setOnClickListener {
             val email = loginBinding.email.text.toString()
@@ -50,6 +53,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun initObserver() {
         loginViewModel.user.observe(this) {
+            AppPreferences.user = it
             startActivity(Intent(this@LoginActivity, MainActivity::class.java))
             finish()
         }
@@ -70,12 +74,12 @@ class LoginActivity : AppCompatActivity() {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RC_SIGN_IN) {
-            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data!!)
-            if (result!!.isSuccess) {
-                val acct = result.signInAccount
+    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+            val loginResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data!!)
+            if (loginResult!!.isSuccess) {
+                val acct = loginResult.signInAccount
                 val idToken = acct!!.idToken
                 loginViewModel.signInWithGoogle("$idToken")
             } else {

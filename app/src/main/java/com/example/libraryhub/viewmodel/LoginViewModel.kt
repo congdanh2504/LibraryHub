@@ -25,6 +25,10 @@ class LoginViewModel @Inject constructor(private val authRepository: AuthReposit
     val user: LiveData<User>
         get() = _user
 
+    init {
+        getProfile()
+    }
+
     private fun getProfile() = viewModelScope.launch {
         authRepository.getProfile().let {
             if (it.isSuccessful) {

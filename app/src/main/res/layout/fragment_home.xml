@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.fragment.HomeFragment">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView_br"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_baseline_library_books_24"
+                android:drawablePadding="10dp"
+                android:text="Borrowing"
+                android:textColor="#000000"
+                android:textSize="24sp" />
+
+            <RelativeLayout
+                android:id="@+id/expanded_view_br"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerViewBorrowing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:isScrollContainer="false"
+                    android:scrollbars="" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textView_rc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:drawableStart="@drawable/ic_baseline_library_books_24"
+                android:drawablePadding="10dp"
+                android:text="Recent Book"
+                android:textColor="#000000"
+                android:textSize="24sp" />
+
+            <RelativeLayout
+                android:id="@+id/expanded_view_rc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerViewRecent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textView_rq"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:drawableStart="@drawable/ic_baseline_library_books_24"
+                android:drawablePadding="5dp"
+                android:text="Request"
+                android:textColor="#000000"
+                android:textSize="24sp" />
+
+            <RelativeLayout
+                android:id="@+id/expanded_view_rq"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerViewRequest"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
