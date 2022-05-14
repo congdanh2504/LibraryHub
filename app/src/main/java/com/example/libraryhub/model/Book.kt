@@ -1,5 +1,19 @@
 package com.example.libraryhub.model
 
-
-data class Book (val bookId : String, val title : String, val thumbnail : String, val description : String, val author : String, val publisher : String,val price : Int,val location : Location)
-//Book("123","this is the title","http://diaoc5sao.vn/wp-content/uploads/2021/11/The-Ukrainian-Book-Institute-Purchases-380.9-Thousand-Books-for-Public-Libraries1.jpeg","this is the dsescription","author unknown","publisher unknown")
+data class Book(
+    val author: String,
+    val avgRate: Double,
+    val borrowedNum: Int,
+    val category: Category,
+    val description: String,
+    val location: Location,
+    val name: String,
+    val picture: String,
+    val price: Int,
+    val publishYear: Int,
+    val publisher: String,
+    val quantity: Int,
+    val reviews: List<Review>,
+    val type: String,
+    val _id: String = "",
+)

@@ -26,15 +26,15 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/avatar"
-            android:layout_width="54dp"
-            android:layout_height="53dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="11dp"
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-            app:strokeColor="@color/black"
+            app:strokeColor="@color/white"
             app:strokeWidth="1dp" />
 
         <ImageView
@@ -42,18 +42,18 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="10dp"
-            app:srcCompat="@drawable/ic_baseline_notifications_24"
+            android:layout_toStartOf="@+id/avatar"
 
-            android:layout_toStartOf="@+id/avatar" />
+            app:srcCompat="@drawable/ic_baseline_notifications_24" />
 
         <ImageView
             android:id="@+id/imageView4"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="12dp"
             android:layout_toStartOf="@+id/imageView2"
             app:srcCompat="@drawable/ic_baseline_add_box_24" />
@@ -84,18 +84,5 @@
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/main" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_baseline_qr_code_24"
-        app:backgroundTint="#045CE1"
-        app:tint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigatin_view"
-        app:layout_constraintHorizontal_bias="0.954"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

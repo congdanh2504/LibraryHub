@@ -1,4 +1,4 @@
-package com.example.dacs3.Adapter
+package com.example.libraryhub.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.libraryhub.R
 import com.example.libraryhub.model.DiscoverParent
 
-class AdapterDiscoverParent(private val dataSet : ArrayList<DiscoverParent>) :RecyclerView.Adapter<AdapterDiscoverParent.ParentViewHolder>() {
+class AdapterDiscoverParent(private val dataSet : List<DiscoverParent>) :RecyclerView.Adapter<AdapterDiscoverParent.ParentViewHolder>() {
     class ParentViewHolder(view : View) : RecyclerView.ViewHolder(view){
         val parentTitle : TextView
         var ChildList : RecyclerView

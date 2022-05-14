@@ -18,13 +18,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     private lateinit var loginBinding: ActivityLoginBinding
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private val loginViewModel: LoginViewModel by viewModels()
-    private val RC_SIGN_IN = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

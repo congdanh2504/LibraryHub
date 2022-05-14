@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class ProfilePagerAdapter(fragment: Fragment,private val mFragmentList : ArrayList<Fragment>) :FragmentStateAdapter(fragment) {
+
     override fun getItemCount(): Int {
         return mFragmentList.size
     }
@@ -14,6 +15,5 @@ class ProfilePagerAdapter(fragment: Fragment,private val mFragmentList : ArrayLi
     override fun createFragment(position: Int): Fragment {
         return mFragmentList[position]
     }
-
 
 }

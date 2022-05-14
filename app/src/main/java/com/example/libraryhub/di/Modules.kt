@@ -1,6 +1,7 @@
 package com.example.libraryhub.di
 
 import com.example.libraryhub.api.AuthAPI
+import com.example.libraryhub.api.BookAPI
 import com.example.libraryhub.api.CategoryAPI
 import com.example.libraryhub.utils.AppPreferences
 import com.example.libraryhub.utils.Constants
@@ -43,4 +44,14 @@ object Modules {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(CategoryAPI::class.java)
+
+    @Provides
+    @Singleton
+    fun provideBookAPIInstance(BASE_URL: String) : BookAPI =
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(BookAPI::class.java)
 }

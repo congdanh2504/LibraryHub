@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso
 import java.util.*
 import kotlin.collections.ArrayList
 
-class AdapterSearch(private val dataSet : List<Category>) :
+class AdapterSearch(private val dataSet : List<Category>, private val onCategoryClick: (String) -> Unit) :
     RecyclerView.Adapter<AdapterSearch.SearchViewHolder>() {
 
     class SearchViewHolder(view : View) : RecyclerView.ViewHolder(view){
@@ -38,9 +38,11 @@ class AdapterSearch(private val dataSet : List<Category>) :
         holder.title.text = dataSet[position].name
         Picasso.get()
             .load(dataSet[position].picture)
-            .placeholder(R.drawable.ic_launcher_background)
+            .placeholder(R.drawable.placeholdeimage)
             .into(holder.image)
-
+        holder.card.setOnClickListener {
+            onCategoryClick(dataSet[position]._id)
+        }
         holder.card.background.setTint(Color.parseColor(color[position%13]))
     }
 

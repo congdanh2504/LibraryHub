@@ -10,7 +10,6 @@ import com.example.libraryhub.R
 import com.example.libraryhub.model.Book
 import com.squareup.picasso.Picasso
 
-
 class AdapterBorrowing(private val dataSet: ArrayList<Book>) :
     RecyclerView.Adapter<AdapterBorrowing.ViewHolder>() {
 
@@ -34,11 +33,11 @@ class AdapterBorrowing(private val dataSet: ArrayList<Book>) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
 
         Picasso.get()
-            .load(dataSet[position].thumbnail)
+            .load(dataSet[position].picture)
             .placeholder(R.drawable.ic_launcher_background)
             .into(viewHolder.thubnail)
 
-        viewHolder.title.text = dataSet[position].title
+        viewHolder.title.text = dataSet[position].name
     }
 
     override fun getItemCount() = dataSet.size

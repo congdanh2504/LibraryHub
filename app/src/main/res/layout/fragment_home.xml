@@ -71,9 +71,9 @@
                 android:id="@+id/textView_rq"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:drawableStart="@drawable/ic_baseline_library_books_24"
-                android:drawablePadding="5dp"
+                android:drawablePadding="10dp"
                 android:text="Request"
                 android:textColor="#000000"
                 android:textSize="24sp" />

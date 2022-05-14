@@ -19,11 +19,26 @@
         android:id="@+id/SearchFragment"
         android:name="com.example.libraryhub.view.fragment.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            app:exitAnim="@anim/nav_default_pop_exit_anim"
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            android:id="@+id/action_SearchFragment_to_bookListFragment"
+            app:destination="@id/bookListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.libraryhub.view.fragment.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/bookListFragment"
+        android:name="com.example.libraryhub.view.fragment.BookListFragment"
+        android:label="fragment_book_list"
+        tools:layout="@layout/fragment_book_list" >
+        <argument
+            android:name="categoryId"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

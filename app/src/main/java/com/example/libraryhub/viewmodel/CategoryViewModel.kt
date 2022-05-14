@@ -25,7 +25,6 @@ class CategoryViewModel @Inject constructor(private val categoryRepository: Cate
 
     private fun getAllRepository() = viewModelScope.launch {
         categoryRepository.getAllCategory().let {
-            Log.d("AAA", "${it.isSuccessful}")
             if (it.isSuccessful) {
                 _categories.postValue(it.body())
             }

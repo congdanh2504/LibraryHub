@@ -35,12 +35,12 @@ class AdapterCart(private val dataSet : ArrayList<Book>) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.title.text = dataSet[position].title
+        holder.title.text = dataSet[position].name
         holder.location.text = dataSet[position].location.toString()
         holder.price.text = "${dataSet[position].price}VND"
         Picasso.get()
-            .load(dataSet[position].thumbnail)
-            .placeholder(R.drawable.ic_launcher_background)
+            .load(dataSet[position].picture)
+            .placeholder(R.drawable.placeholdeimage)
             .into(holder.image)
     }
 
