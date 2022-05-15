@@ -25,7 +25,9 @@ class ProfileInfoFragment : Fragment() {
 
         fragmentProfileInfoBinding.email.text = user!!.email
         fragmentProfileInfoBinding.username.text = user.username
-        fragmentProfileInfoBinding.borrowingNum.text = user.borrowingNum.toString()
+        if (user.currentPackage != null) {
+            fragmentProfileInfoBinding.currentPackage.text = user.currentPackage.name
+        }
         initActions()
         return fragmentProfileInfoBinding.root
     }

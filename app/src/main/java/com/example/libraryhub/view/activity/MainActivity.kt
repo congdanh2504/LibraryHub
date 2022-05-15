@@ -8,6 +8,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.libraryhub.R
 import com.example.libraryhub.databinding.ActivityMainBinding
 import com.example.libraryhub.utils.AppPreferences
+import com.example.libraryhub.view.fragment.ProfileViewModel
 import com.example.libraryhub.viewmodel.SearchViewModel
 import com.example.libraryhub.viewmodel.DiscoverViewModel
 import com.squareup.picasso.Picasso
@@ -17,6 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var mainBinding: ActivityMainBinding
 //    private val discoverViewModel: DiscoverViewModel by viewModels()
+    private val profileViewModel: ProfileViewModel by viewModels()
     private val searchViewModel: SearchViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
