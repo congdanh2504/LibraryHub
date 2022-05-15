@@ -7,9 +7,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.libraryhub.R
+import com.example.libraryhub.model.Book
 import com.example.libraryhub.model.DiscoverParent
 
-class AdapterDiscoverParent(private val dataSet : List<DiscoverParent>) :RecyclerView.Adapter<AdapterDiscoverParent.ParentViewHolder>() {
+class AdapterDiscoverParent(private val dataSet : List<DiscoverParent>, private val onBookClick: (Book) -> Unit) :RecyclerView.Adapter<AdapterDiscoverParent.ParentViewHolder>() {
     class ParentViewHolder(view : View) : RecyclerView.ViewHolder(view){
         val parentTitle : TextView
         var ChildList : RecyclerView
@@ -28,7 +29,7 @@ class AdapterDiscoverParent(private val dataSet : List<DiscoverParent>) :Recycle
 
     override fun onBindViewHolder(holder: AdapterDiscoverParent.ParentViewHolder, position: Int) {
         holder.parentTitle.text = dataSet[position].title
-        val childMemberAdapter = AdapterDiscoverChildren(dataSet[position].childItems)
+        val childMemberAdapter = AdapterDiscoverChildren(dataSet[position].childItems, onBookClick)
         holder.ChildList.layoutManager = LinearLayoutManager(holder.ChildList.context,LinearLayoutManager.HORIZONTAL,false)
         holder.ChildList.adapter = childMemberAdapter
     }

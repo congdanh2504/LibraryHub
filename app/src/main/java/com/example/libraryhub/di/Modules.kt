@@ -52,6 +52,10 @@ object Modules {
             .baseUrl(BASE_URL)
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
+            .client(OkHttpClient.Builder().addInterceptor { chain ->
+                val request = chain.request().newBuilder().addHeader("Authorization", "Bearer ${AppPreferences.JWT}").build()
+                chain.proceed(request)
+            }.build())
             .build()
             .create(BookAPI::class.java)
 }

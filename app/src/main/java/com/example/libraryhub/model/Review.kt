@@ -1,8 +1,8 @@
 package com.example.libraryhub.model
 
 data class Review(
-    val _id: String,
     val comment: String,
-    val rate: Int,
-    val user: User
+    val rate: Double,
+    val user: User,
+    val _id: String = ""
 )

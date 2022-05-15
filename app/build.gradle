@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -76,4 +77,6 @@ dependencies {
 
     //picasso
     implementation 'com.squareup.picasso:picasso:2.8'
+
+    implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
 }

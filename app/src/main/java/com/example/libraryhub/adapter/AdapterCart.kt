@@ -1,4 +1,4 @@
-package com.example.dacs3.Adapter
+package com.example.libraryhub.adapter
 
 import android.view.LayoutInflater
 import android.view.View

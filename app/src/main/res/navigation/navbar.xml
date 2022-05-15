@@ -14,7 +14,13 @@
         android:id="@+id/discoverFragment"
         android:name="com.example.libraryhub.view.fragment.DiscoverFragment"
         android:label="fragment_discover"
-        tools:layout="@layout/fragment_discover" />
+        tools:layout="@layout/fragment_discover" >
+        <action
+            app:exitAnim="@anim/nav_default_pop_exit_anim"
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            android:id="@+id/action_discoverFragment_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/SearchFragment"
         android:name="com.example.libraryhub.view.fragment.SearchFragment"
@@ -25,6 +31,9 @@
             app:enterAnim="@anim/nav_default_pop_enter_anim"
             android:id="@+id/action_SearchFragment_to_bookListFragment"
             app:destination="@id/bookListFragment" />
+        <action
+            android:id="@+id/action_SearchFragment_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -37,8 +46,22 @@
         android:label="fragment_book_list"
         tools:layout="@layout/fragment_book_list" >
         <argument
-            android:name="categoryId"
-            app:argType="string" />
+            android:name="category"
+            app:argType="com.example.libraryhub.model.Category" />
+        <action
+            app:exitAnim="@anim/nav_default_pop_exit_anim"
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            android:id="@+id/action_bookListFragment_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookDetailFragment"
+        android:name="com.example.libraryhub.view.fragment.BookDetailFragment"
+        android:label="fragment_book_detail"
+        tools:layout="@layout/fragment_book_detail" >
+        <argument
+            android:name="book"
+            app:argType="com.example.libraryhub.model.Book" />
     </fragment>
 
 </navigation>
