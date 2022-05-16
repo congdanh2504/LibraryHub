@@ -1,5 +1,6 @@
 package com.example.libraryhub.view.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -16,7 +17,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var mainBinding: ActivityMainBinding
-//    private val discoverViewModel: DiscoverViewModel by viewModels()
     private val profileViewModel: ProfileViewModel by viewModels()
     private val searchViewModel: SearchViewModel by viewModels()
 
@@ -30,5 +30,12 @@ class MainActivity : AppCompatActivity() {
             .load(AppPreferences.user?.picture)
             .placeholder(R.drawable.profileplaceholder)
             .into(mainBinding.avatar)
+        initActions()
+    }
+
+    private fun initActions() {
+        mainBinding.cart.setOnClickListener {
+            startActivity(Intent(this@MainActivity, CartActivity::class.java))
+        }
     }
 }

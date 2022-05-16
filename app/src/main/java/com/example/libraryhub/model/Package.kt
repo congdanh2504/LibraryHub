@@ -1,5 +1,9 @@
 package com.example.libraryhub.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Package(
     val name: String,
     val time: Int,
@@ -7,4 +11,4 @@ data class Package(
     val benefit: String,
     val booksPerLoan: Int,
     val _id: String = ""
-)
+) : Parcelable

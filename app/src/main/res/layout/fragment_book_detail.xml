@@ -174,12 +174,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
             <Button
-                android:id="@+id/addToBasket"
+                android:id="@+id/addToCart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:backgroundTint="@color/primary"
-                android:text="Add to basket"
+                android:text="Add to cart"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toEndOf="@+id/image"
                 app:layout_constraintTop_toBottomOf="@+id/price" />
@@ -190,8 +190,10 @@
                 android:layout_height="44dp"
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/addToCart"
                 app:layout_constraintTop_toBottomOf="@+id/price"
-                app:srcCompat="@drawable/ic_baseline_shopping_basket_24" />
+                app:srcCompat="@drawable/ic_baseline_shopping_cart_24"
+                app:tint="#045CE1" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView

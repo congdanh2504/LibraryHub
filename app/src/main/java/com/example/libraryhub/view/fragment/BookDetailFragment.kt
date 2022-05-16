@@ -2,6 +2,7 @@ package com.example.libraryhub.view.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,9 +16,11 @@ import com.example.libraryhub.R
 import com.example.libraryhub.adapter.AdapterReview
 import com.example.libraryhub.databinding.FragmentBookDetailBinding
 import com.example.libraryhub.model.Book
+import com.example.libraryhub.model.CartBook
 import com.example.libraryhub.model.Review
 import com.example.libraryhub.utils.AppPreferences
 import com.example.libraryhub.viewmodel.BookDetailViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -78,8 +81,44 @@ class BookDetailFragment : Fragment() {
                 val review = Review(comment, rating, AppPreferences.user!!)
                 bookDetailViewModel.addReview(args.book._id, review)
             } else {
-                Toast.makeText(activity, "Comment must be not null", Toast.LENGTH_LONG).show()
+                Snackbar.make(
+                    bookDetailBinding.textView10,
+                    "Comment must be not null",
+                    Snackbar.LENGTH_LONG
+                ).show()
             }
+            bookDetailBinding.comment.text = SpannableStringBuilder("")
+        }
+        bookDetailBinding.addToCart.setOnClickListener {
+            if (AppPreferences.cart == null) {
+                AppPreferences.cart = ArrayList()
+            }
+            var isContain = false
+            val tempCart = AppPreferences.cart
+            for (i in 0 until tempCart!!.size) {
+                if (tempCart[i]._id == args.book._id) {
+                    tempCart[i].quantity++
+                    isContain = true
+                    break
+                }
+            }
+            if (!isContain) {
+                tempCart.add(
+                    CartBook(
+                        args.book._id,
+                        args.book.name,
+                        args.book.picture,
+                        args.book.author,
+                        1
+                    )
+                )
+            }
+            AppPreferences.cart = tempCart
+            Snackbar.make(
+                bookDetailBinding.imageView6,
+                """Add "${args.book.name}" to the cart""",
+                Snackbar.LENGTH_LONG
+            ).show()
         }
     }
 }

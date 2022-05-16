@@ -36,7 +36,7 @@ class ProfilePaymentFragment : Fragment() {
     }
 
     private val onBuy: (packageId: String) -> Unit = {
-        if (user!!.currentPackage != null && user.expiration!!.after(Calendar.getInstance().time)) {
+        if (!user!!.isExpire()) {
             Toast.makeText(activity, "You are using ${user.currentPackage!!.name} package", Toast.LENGTH_LONG).show()
             profileViewModel._buyState.postValue(false)
         } else {

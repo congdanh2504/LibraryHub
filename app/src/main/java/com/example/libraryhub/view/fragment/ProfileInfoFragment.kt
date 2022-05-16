@@ -29,8 +29,8 @@ class ProfileInfoFragment : Fragment() {
         fragmentProfileInfoBinding.email.text = user!!.email
         fragmentProfileInfoBinding.username.text = user.username
 
-        if (user.currentPackage != null && user.expiration!!.after(Calendar.getInstance().time)) {
-            fragmentProfileInfoBinding.currentPackage.text = user.currentPackage.name
+        if (!user.isExpire()) {
+            fragmentProfileInfoBinding.currentPackage.text = user.currentPackage!!.name
         }
         initActions()
         return fragmentProfileInfoBinding.root
@@ -40,6 +40,7 @@ class ProfileInfoFragment : Fragment() {
         fragmentProfileInfoBinding.signOutButton.setOnClickListener {
             AppPreferences.JWT = ""
             AppPreferences.user = null
+            AppPreferences.cart = null
             startActivity(Intent(context, LoginActivity::class.java))
             activity?.finish()
         }
