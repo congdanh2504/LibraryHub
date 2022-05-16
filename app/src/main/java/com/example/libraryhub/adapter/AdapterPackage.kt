@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.libraryhub.R
 import com.example.libraryhub.model.Package
 
-class AdapterPackage(private val dataSet: List<Package>) :
+class AdapterPackage(private val dataSet: List<Package>,private val onBuy: (String) -> Unit) :
     RecyclerView.Adapter<AdapterPackage.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.name)
@@ -39,6 +39,9 @@ class AdapterPackage(private val dataSet: List<Package>) :
         holder.selectPlanButton.background.setTint(Color.parseColor(color[position % color.size]))
         holder.benefit1.text = dataSet[position].benefit
         holder.benefit2.text = "${dataSet[position].booksPerLoan} per loan"
+        holder.selectPlanButton.setOnClickListener {
+            onBuy(dataSet[position]._id)
+        }
     }
 
     override fun getItemCount(): Int {
