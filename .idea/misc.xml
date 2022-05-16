@@ -42,10 +42,11 @@
         <entry key="..\:/LibraryHub/app/src/main/res/layout/subscription_item.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/top_navbar.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/menu/main.xml" value="0.184375" />
+        <entry key="..\:/Users/vthcv/LibHub/LibraryHub/app/src/main/res/layout/activity_login.xml" value="0.33" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

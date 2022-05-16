@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.libraryhub">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".MyApp"
@@ -11,8 +11,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.LibraryHub">
+        android:theme="@style/Theme.LibraryHub"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".view.activity.SignUpActivity"
             android:exported="false" />
@@ -29,5 +29,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
