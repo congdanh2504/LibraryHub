@@ -1,6 +1,7 @@
 package com.example.libraryhub.api
 
 import com.example.libraryhub.model.Book
+import com.example.libraryhub.model.BorrowerRecord
 import com.example.libraryhub.model.CartBook
 import com.example.libraryhub.model.Review
 import retrofit2.Response
@@ -28,4 +29,7 @@ interface BookAPI {
 
     @POST("user/borrowbook")
     suspend fun borrowBook(@Body body: List<CartBook>): Response<Void>
+
+    @GET("user/borrowingbooks")
+    suspend fun getBorrowingBooks(): Response<BorrowerRecord>
 }

@@ -38,6 +38,9 @@ class BookListFragment : Fragment() {
         bookListBinding.bookList.adapter = adapter
 
         bookListViewModel.books.observe(viewLifecycleOwner) {
+            bookListBinding.bookList.visibility = View.VISIBLE
+            bookListBinding.emptyImage.visibility = View.GONE
+            bookListBinding.emptyText.visibility = View.GONE
             adapter.setBook(it)
         }
         bookListViewModel.getBooksByCategory(args.category._id)

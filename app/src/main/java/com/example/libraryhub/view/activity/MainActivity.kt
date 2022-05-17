@@ -9,6 +9,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.libraryhub.R
 import com.example.libraryhub.databinding.ActivityMainBinding
 import com.example.libraryhub.utils.AppPreferences
+import com.example.libraryhub.viewmodel.HomeViewModel
 import com.example.libraryhub.viewmodel.ProfileViewModel
 import com.example.libraryhub.viewmodel.SearchViewModel
 import com.squareup.picasso.Picasso
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainBinding: ActivityMainBinding
     private val profileViewModel: ProfileViewModel by viewModels()
     private val searchViewModel: SearchViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

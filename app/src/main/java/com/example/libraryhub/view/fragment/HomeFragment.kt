@@ -5,57 +5,42 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
+import com.example.libraryhub.adapter.AdapterTab
 import com.example.libraryhub.databinding.FragmentHomeBinding
+import com.google.android.material.tabs.TabLayoutMediator
 
 class HomeFragment : Fragment() {
     private lateinit var homeBinding: FragmentHomeBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var viewPager: ViewPager2
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        var expand  = false
-        // Inflate the layout for this fragment
+    ): View {
         homeBinding = FragmentHomeBinding.inflate(inflater, container, false)
-//        homeBinding.RecyclerViewBorrowing.layoutManager = LinearLayoutManager(context)
-//        val data = ArrayList<Book>()
-//        for (i in 1..5) {
-//            data.add(Book("123","this is the title","https://product.hstatic.net/200000343865/product/6_90462943d6e348c8a807fddc3f0d688b_master.jpg","this is description","this is author","publisher",123456,
-//                Location("1","2","3")
-//            ))
-//        }
-//
-//
-//        homeBinding.RecyclerViewBorrowing.adapter = AdapterBorrowing(data)
-//        homeBinding.textViewBr.setOnClickListener{
-//            expand = !expand;
-//            activity?.runOnUiThread{
-//                homeBinding.expandedViewBr.visibility = if(expand) View.VISIBLE else View.GONE
-//            }
-//        }
-//        homeBinding.RecyclerViewRecent.adapter = AdapterBorrowing(data)
-//        homeBinding.RecyclerViewRecent.layoutManager = LinearLayoutManager(context)
-//        homeBinding.textViewRc.setOnClickListener{
-//            expand = !expand;
-//            activity?.runOnUiThread{
-//                homeBinding.expandedViewRc.visibility = if(expand) View.VISIBLE else View.GONE
-//            }
-//        }
-//        homeBinding.RecyclerViewRequest.adapter = AdapterBorrowing(data)
-//        homeBinding.RecyclerViewRequest.layoutManager = LinearLayoutManager(context)
-//        homeBinding.textViewRq.setOnClickListener{
-//            expand = !expand;
-//            activity?.runOnUiThread{
-//                homeBinding.expandedViewRq.visibility = if(expand) View.VISIBLE else View.GONE
-//            }
-//        }
 
+        val data = ArrayList<Fragment>()
+        data.add(BorrowingFragment())
+        data.add(RecentFragment())
+        data.add(RequestedFragment())
+        val adapter = AdapterTab(this, data)
+        viewPager = homeBinding.homeViewPager
+        viewPager.adapter = adapter
+        val tabLayout = homeBinding.HomeTabLayout
+        TabLayoutMediator(tabLayout,viewPager){tab,position ->
+            when(position){
+                0 ->{
+                    tab.text = "Borrowing"
+                }
+                1 ->{
+                    tab.text = "Recent"
+                }
+                2 ->{
+                    tab.text = "Requested"
+                }
+            }
+        }.attach()
 
         return homeBinding.root
     }

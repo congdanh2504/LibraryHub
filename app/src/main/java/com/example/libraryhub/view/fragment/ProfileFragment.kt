@@ -1,18 +1,15 @@
 package com.example.libraryhub.view.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.widget.ViewPager2
-import com.example.dacs3.Adapter.ProfilePagerAdapter
+import com.example.libraryhub.adapter.AdapterTab
 import com.example.libraryhub.R
 import com.example.libraryhub.databinding.FragmentProfileBinding
 import com.example.libraryhub.utils.AppPreferences
-import com.example.libraryhub.view.activity.LoginActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import com.squareup.picasso.Picasso
 
@@ -35,7 +32,7 @@ class ProfileFragment : Fragment() {
         val data = ArrayList<Fragment>()
         data.add(ProfileInfoFragment())
         data.add(ProfilePaymentFragment())
-        val adapter = ProfilePagerAdapter(this, data)
+        val adapter = AdapterTab(this, data)
         viewPager = profileBinding.viewPager
         viewPager.adapter = adapter
         val tabLayout = profileBinding.profileTabLayout
