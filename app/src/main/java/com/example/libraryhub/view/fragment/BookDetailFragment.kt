@@ -96,7 +96,7 @@ class BookDetailFragment : Fragment() {
             var isContain = false
             val tempCart = AppPreferences.cart
             for (i in 0 until tempCart!!.size) {
-                if (tempCart[i]._id == args.book._id) {
+                if (tempCart[i].id == args.book._id) {
                     tempCart[i].quantity++
                     isContain = true
                     break
@@ -109,7 +109,8 @@ class BookDetailFragment : Fragment() {
                         args.book.name,
                         args.book.picture,
                         args.book.author,
-                        1
+                        1,
+                        false
                     )
                 )
             }

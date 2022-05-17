@@ -77,6 +77,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/benefit1" />
 
+        <CheckBox
+            android:id="@+id/benefit3"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginStart="4dp"
+            android:height="25dp"
+            android:checked="true"
+            android:clickable="false"
+            android:text="Advance service"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false"
+            android:textStyle="bold|italic"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/benefit2" />
+
         <Button
             android:id="@+id/selectPlanButton"
             android:layout_width="200dp"
@@ -89,7 +104,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/benefit2" />
+            app:layout_constraintTop_toBottomOf="@+id/benefit3" />
 
         <TextView
             android:id="@+id/price"

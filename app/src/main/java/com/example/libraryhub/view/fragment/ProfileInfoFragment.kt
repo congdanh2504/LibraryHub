@@ -13,7 +13,9 @@ import com.example.libraryhub.databinding.FragmentProfileBinding
 import com.example.libraryhub.databinding.FragmentProfileInfoBinding
 import com.example.libraryhub.utils.AppPreferences
 import com.example.libraryhub.view.activity.LoginActivity
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class ProfileInfoFragment : Fragment() {
@@ -31,6 +33,13 @@ class ProfileInfoFragment : Fragment() {
 
         if (!user.isExpire()) {
             fragmentProfileInfoBinding.currentPackage.text = user.currentPackage!!.name
+            val dateFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            fragmentProfileInfoBinding.expiration.text = dateFormatter.format(user.expiration!!)
+        }
+        if (user.isBorrowing) {
+            fragmentProfileInfoBinding.state.text = "Is borrowing"
+        } else {
+            fragmentProfileInfoBinding.state.text = "Isn't borrowing"
         }
         initActions()
         return fragmentProfileInfoBinding.root

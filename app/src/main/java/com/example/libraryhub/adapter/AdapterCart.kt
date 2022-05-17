@@ -1,6 +1,7 @@
 package com.example.libraryhub.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,7 @@ class AdapterCart() :
         val author: TextView = view.findViewById(R.id.author)
         val quantity: TextView = view.findViewById(R.id.quantity)
         val remove: ImageView = view.findViewById(R.id.remove)
+        val select: CheckBox = view.findViewById(R.id.select)
     }
 
     inner class MyDiffUtil(
@@ -43,7 +45,7 @@ class AdapterCart() :
         }
 
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition]._id == newList[newItemPosition]._id
+            return oldList[oldItemPosition].id == newList[newItemPosition].id
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
@@ -66,12 +68,15 @@ class AdapterCart() :
             .load(book.picture)
             .placeholder(R.drawable.placeholdeimage)
             .into(holder.image)
+        val tempBooks = AppPreferences.cart!!
+        holder.select.setOnClickListener {
+            Log.d("AAA", book.id)
+            oldList[position].isSelected = !oldList[position].isSelected
+        }
         holder.remove.setOnClickListener {
-            val tempBooks = AppPreferences.cart!!
-            val indexOfBook = tempBooks.indexOf(book)
-            if (book.quantity > 1) {
-                tempBooks[indexOfBook].quantity--
-                holder.quantity.text = "x${book.quantity-1}"
+            if (tempBooks[position].quantity > 1) {
+                tempBooks[position].quantity--
+                holder.quantity.text = "x${tempBooks[position].quantity}"
             } else {
                 tempBooks.remove(book)
                 setBooks(tempBooks)
@@ -79,9 +84,9 @@ class AdapterCart() :
             AppPreferences.cart = tempBooks
             Snackbar.make(holder.itemView, """Remove "${book.name}" from the cart""", Snackbar.LENGTH_LONG).setAction("Undo"
             ) {
-                if (book.quantity > 1) {
-                    tempBooks[indexOfBook].quantity++
-                    holder.quantity.text = "x${book.quantity}"
+                if (tempBooks[position].quantity > 1) {
+                    tempBooks[position].quantity++
+                    holder.quantity.text = "x${tempBooks[position].quantity}"
                 } else {
                     tempBooks.add(book)
                     notifyDataSetChanged()
@@ -93,6 +98,20 @@ class AdapterCart() :
 
     override fun getItemCount(): Int {
         return oldList.size
+    }
+
+    fun getSelectedBooks() : ArrayList<CartBook> {
+        val selectedBooks: ArrayList<CartBook> = arrayListOf()
+        oldList.forEach {
+            if (it.isSelected) selectedBooks.add(it)
+        }
+        return selectedBooks
+    }
+
+    fun deleteSelectedBooks() {
+        val newList = oldList.filter { !it.isSelected }
+        setBooks(newList as ArrayList<CartBook>)
+        AppPreferences.cart = newList
     }
 
     fun setBooks(newList: ArrayList<CartBook>) {

@@ -20,6 +20,7 @@ class AdapterPackage(private val dataSet: List<Package>,private val onBuy: (Stri
         val time: TextView = view.findViewById(R.id.time)
         val benefit1: TextView = view.findViewById(R.id.benefit1)
         val benefit2: TextView = view.findViewById(R.id.benefit2)
+        val benefit3: TextView = view.findViewById(R.id.benefit3)
         val card: CardView = view.findViewById(R.id.card)
         val selectPlanButton: Button = view.findViewById(R.id.selectPlanButton)
     }
@@ -39,6 +40,7 @@ class AdapterPackage(private val dataSet: List<Package>,private val onBuy: (Stri
         holder.selectPlanButton.background.setTint(Color.parseColor(color[position % color.size]))
         holder.benefit1.text = dataSet[position].benefit
         holder.benefit2.text = "${dataSet[position].booksPerLoan} per loan"
+        holder.benefit3.text = "Can borrow in ${dataSet[position].borrowDays} days"
         holder.selectPlanButton.setOnClickListener {
             onBuy(dataSet[position]._id)
         }

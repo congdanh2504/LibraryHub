@@ -12,7 +12,8 @@ data class User(
     val email: String,
     val picture: String,
     val role: String,
-    val username: String
+    val username: String,
+    val isBorrowing: Boolean
 ) : Parcelable {
     fun isExpire() = currentPackage == null || expiration!!.before(Calendar.getInstance().time)
 }

@@ -16,6 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -57,9 +58,17 @@ class LoginActivity : AppCompatActivity() {
         }
         loginViewModel.loginState.observe(this) {
             if (it) {
-                Toast.makeText(this@LoginActivity, "Login successfully!", Toast.LENGTH_LONG).show()
+                Snackbar.make(
+                    loginBinding.imageView3,
+                    "Login successfully!",
+                    Snackbar.LENGTH_LONG
+                ).show()
             } else {
-                Toast.makeText(this@LoginActivity, "Login failed!", Toast.LENGTH_LONG).show()
+                Snackbar.make(
+                    loginBinding.imageView3,
+                    "Login failed!",
+                    Snackbar.LENGTH_LONG
+                ).show()
             }
         }
     }
@@ -81,7 +90,11 @@ class LoginActivity : AppCompatActivity() {
                 val idToken = acct!!.idToken
                 loginViewModel.signInWithGoogle("$idToken")
             } else {
-                Toast.makeText(this@LoginActivity, "Error when sign in with google!", Toast.LENGTH_LONG).show()
+                Snackbar.make(
+                    loginBinding.imageView3,
+                    "Error when sign in with google!",
+                    Snackbar.LENGTH_LONG
+                ).show()
             }
         }
         mGoogleSignInClient.signOut()

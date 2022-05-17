@@ -12,6 +12,7 @@ import com.example.libraryhub.adapter.AdapterPackage
 import com.example.libraryhub.databinding.FragmentProfilePaymentBinding
 import com.example.libraryhub.utils.AppPreferences
 import com.example.libraryhub.viewmodel.ProfileViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -37,16 +38,23 @@ class ProfilePaymentFragment : Fragment() {
 
     private val onBuy: (packageId: String) -> Unit = {
         if (!user!!.isExpire()) {
-            Toast.makeText(activity, "You are using ${user.currentPackage!!.name} package", Toast.LENGTH_LONG).show()
             profileViewModel._buyState.postValue(false)
         } else {
             profileViewModel.buyPackage(it)
         }
         profileViewModel.buyState.observe(viewLifecycleOwner) { isSuccess ->
             if (isSuccess) {
-                Toast.makeText(activity, "Buying successfully", Toast.LENGTH_LONG).show()
+                Snackbar.make(
+                    paymentBinding.subscriptionRecyclerView,
+                    "Buying successfully",
+                    Snackbar.LENGTH_LONG
+                ).show()
             } else {
-                Toast.makeText(activity, "Buying failed", Toast.LENGTH_LONG).show()
+                Snackbar.make(
+                    paymentBinding.subscriptionRecyclerView,
+                    "You are using ${user.currentPackage!!.name} package",
+                    Snackbar.LENGTH_LONG
+                ).show()
             }
         }
     }

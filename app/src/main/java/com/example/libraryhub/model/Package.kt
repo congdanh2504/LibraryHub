@@ -10,5 +10,6 @@ data class Package(
     val price: Int,
     val benefit: String,
     val booksPerLoan: Int,
+    val borrowDays: Int,
     val _id: String = ""
 ) : Parcelable

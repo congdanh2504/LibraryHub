@@ -1,6 +1,7 @@
 package com.example.libraryhub.api
 
 import com.example.libraryhub.model.Book
+import com.example.libraryhub.model.CartBook
 import com.example.libraryhub.model.Review
 import retrofit2.Response
 import retrofit2.http.*
@@ -21,4 +22,10 @@ interface BookAPI {
 
     @POST("user/addreview/{bookId}")
     suspend fun addReview(@Path("bookId") bookId: String, @Body review: Review): Response<Void>
+
+    @POST("user/checkquantity")
+    suspend fun checkQuantity(@Body body: List<CartBook>): Response<Boolean>
+
+    @POST("user/borrowbook")
+    suspend fun borrowBook(@Body body: List<CartBook>): Response<Void>
 }
