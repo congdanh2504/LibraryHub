@@ -176,7 +176,9 @@
                 android:backgroundTint="@color/primary"
                 android:text="Add to cart"
                 android:textColor="@color/white"
+                android:drawableLeft="@drawable/ic_baseline_shopping_cart_24"
                 app:layout_constraintStart_toStartOf="parent"
+                android:drawableTint="@color/white"
                 app:layout_constraintTop_toBottomOf="@+id/price" />
 
             <ImageView
