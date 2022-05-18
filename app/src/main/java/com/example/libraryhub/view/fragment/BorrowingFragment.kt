@@ -46,6 +46,8 @@ class BorrowingFragment : Fragment() {
                 val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                 borrowingBinding.createdDate.text = dateFormatter.format(it.createdDate)
                 borrowingBinding.returnDate.text = dateFormatter.format(it.returnDate)
+                if (!it.status.startsWith("Pending")) borrowingBinding.qr.visibility = View.GONE
+                else borrowingBinding.qr.visibility = View.VISIBLE
                 adapter.setBooks(it.books)
             } else {
                 borrowingBinding.borrowRecord.visibility = View.GONE
