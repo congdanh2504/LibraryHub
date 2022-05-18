@@ -47,6 +47,14 @@ class LoginActivity : AppCompatActivity() {
         loginBinding.signInButton.setOnClickListener {
             val email = loginBinding.email.text.toString()
             val password = loginBinding.password.text.toString()
+            if (email.isEmpty()) {
+                loginBinding.email.error = "Required!"
+                return@setOnClickListener
+            }
+            if (password.isEmpty()) {
+                loginBinding.password.error = "Required!"
+                return@setOnClickListener
+            }
             loginViewModel.signIn(email, password)
         }
     }

@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDialog
 import com.example.libraryhub.databinding.QrcodeDialogBinding
 
-class CustomDialog(context: Context,private val bitMatrix: Bitmap) : AppCompatDialog(context) {
+class QRCodeDialog(context: Context, private val bitMatrix: Bitmap) : AppCompatDialog(context) {
     private lateinit var binding: QrcodeDialogBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

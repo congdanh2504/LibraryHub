@@ -1,9 +1,6 @@
 package com.example.libraryhub.di
 
-import com.example.libraryhub.api.AuthAPI
-import com.example.libraryhub.api.BookAPI
-import com.example.libraryhub.api.CategoryAPI
-import com.example.libraryhub.api.PackageAPI
+import com.example.libraryhub.api.*
 import com.example.libraryhub.utils.AppPreferences
 import com.example.libraryhub.utils.Constants
 import dagger.Module
@@ -73,4 +70,18 @@ object Modules {
             }.build())
             .build()
             .create(PackageAPI::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAdminAPIInstance(BASE_URL: String) : AdminAPI =
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(OkHttpClient.Builder().addInterceptor { chain ->
+                val request = chain.request().newBuilder().addHeader("Authorization", "Bearer ${AppPreferences.JWT}").build()
+                chain.proceed(request)
+            }.build())
+            .build()
+            .create(AdminAPI::class.java)
 }

@@ -46,4 +46,12 @@ class HomeViewModel @Inject constructor(private val bookRepository: BookReposito
             }
         }
     }
+
+    fun returnBooks(recordId: String) = viewModelScope.launch {
+        bookRepository.returnBooks(recordId).let {
+            if (it.isSuccessful) {
+                getBorrowingBooks()
+            }
+        }
+    }
 }

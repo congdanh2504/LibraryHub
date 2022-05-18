@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.libraryhub.adapter.AdapterBorrow
 import com.example.libraryhub.databinding.FragmentBorrowingBinding
-import com.example.libraryhub.view.dialog.CustomDialog
+import com.example.libraryhub.view.dialog.QRCodeDialog
 import com.example.libraryhub.viewmodel.HomeViewModel
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
@@ -41,6 +41,12 @@ class BorrowingFragment : Fragment() {
         homeViewModel.getBorrowingBooks()
 
         homeViewModel.borrowerRecord.observe(viewLifecycleOwner) {
+            borrowingBinding.fabQr.visibility = View.GONE
+            borrowingBinding.borrowRecord.visibility = View.GONE
+            borrowingBinding.borrowingRecycler.visibility = View.GONE
+            borrowingBinding.fabReturn.visibility = View.GONE
+            borrowingBinding.emptyImage.visibility = View.VISIBLE
+            borrowingBinding.emptyText.visibility = View.VISIBLE
             if (it != null) {
                 borrowingBinding.borrowRecord.visibility = View.VISIBLE
                 borrowingBinding.borrowingRecycler.visibility = View.VISIBLE
@@ -51,15 +57,9 @@ class BorrowingFragment : Fragment() {
                 val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                 borrowingBinding.createdDate.text = dateFormatter.format(it.createdDate)
                 borrowingBinding.returnDate.text = dateFormatter.format(it.returnDate)
-                if (it.status.startsWith("Pending")) borrowingBinding.fab.visibility = View.VISIBLE
-                else borrowingBinding.fab.visibility = View.GONE
+                if (it.status.startsWith("Pending")) borrowingBinding.fabQr.visibility = View.VISIBLE
+                if (it.status == "Borrowing") borrowingBinding.fabReturn.visibility = View.VISIBLE
                 adapter.setBooks(it.books)
-            } else {
-                borrowingBinding.fab.visibility = View.GONE
-                borrowingBinding.borrowRecord.visibility = View.GONE
-                borrowingBinding.borrowingRecycler.visibility = View.GONE
-                borrowingBinding.emptyImage.visibility = View.VISIBLE
-                borrowingBinding.emptyText.visibility = View.VISIBLE
             }
         }
 
@@ -72,7 +72,7 @@ class BorrowingFragment : Fragment() {
             homeViewModel.getBorrowingBooks()
             borrowingBinding.swipeToRefresh.isRefreshing = false
         }
-        borrowingBinding.fab.setOnClickListener {
+        borrowingBinding.fabQr.setOnClickListener {
             val writer = QRCodeWriter()
             try {
                 val bitMatrix = writer.encode(_id, BarcodeFormat.QR_CODE, 512, 512)
@@ -84,11 +84,14 @@ class BorrowingFragment : Fragment() {
                         bmp.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
                     }
                 }
-                val dialog = CustomDialog(requireContext(), bmp)
+                val dialog = QRCodeDialog(requireContext(), bmp)
                 dialog.show()
             } catch (e: WriterException) {
                 e.printStackTrace()
             }
+        }
+        borrowingBinding.fabReturn.setOnClickListener {
+            homeViewModel.returnBooks(homeViewModel.borrowerRecord.value!!._id)
         }
     }
 

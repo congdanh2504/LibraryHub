@@ -23,6 +23,7 @@
         <entry key="..\:/LibraryHub/app/src/main/res/layout/activity_login.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/activity_main.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/activity_manager_main.xml" value="0.2109375" />
+        <entry key="..\:/LibraryHub/app/src/main/res/layout/activity_manager_record.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/activity_sign_up.xml" value="0.35572916666666665" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/book_item.xml" value="0.25" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/borrower_item.xml" value="0.3697916666666667" />
@@ -48,6 +49,7 @@
         <entry key="..\:/LibraryHub/app/src/main/res/layout/pack_item.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/package_item.xml" value="0.25" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/qrcode_dialog.xml" value="0.3697916666666667" />
+        <entry key="..\:/LibraryHub/app/src/main/res/layout/record_dialog.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/review_item.xml" value="0.18802083333333333" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/search_item.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/subscription_item.xml" value="0.3697916666666667" />

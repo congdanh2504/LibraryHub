@@ -24,4 +24,6 @@ class BookRepository @Inject constructor(private val bookAPI: BookAPI) {
     suspend fun getBorrowingBooks() = bookAPI.getBorrowingBooks()
 
     suspend fun getRecentBooks() = bookAPI.getRecentBooks()
+
+    suspend fun returnBooks(recordId: String) = bookAPI.returnBooks(recordId)
 }
