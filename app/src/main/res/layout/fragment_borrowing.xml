@@ -112,11 +112,10 @@
 
                 <ImageView
                     android:id="@+id/qrIcon"
-                    app:tint="@color/primary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_baseline_qr_code_24"
-                    />
+                    app:tint="@color/primary" />
 
             </LinearLayout>
 
