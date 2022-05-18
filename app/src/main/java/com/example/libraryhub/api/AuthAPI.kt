@@ -10,7 +10,7 @@ interface AuthAPI {
     @POST("auth/signinwithgoogle/{idToken}")
     suspend fun signInWithGoogle(@Path("idToken") idToken: String): Response<String>
 
-    @GET("user/profile")
+    @GET("profile")
     suspend fun getProfile(): Response<User>
 
     @Headers("Content-Type: application/json")

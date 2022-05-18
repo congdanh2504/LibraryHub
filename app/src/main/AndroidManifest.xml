@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.libraryhub">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:name=".MyApp"
@@ -13,6 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LibraryHub"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="portrait"
+            tools:replace="android:screenOrientation"
+            android:stateNotNeeded="true"/>
+        <activity
+            android:name=".view.activity.ManagerMainActivity"
+            android:exported="false" />
         <activity
             android:name=".view.activity.CartActivity"
             android:exported="false" />

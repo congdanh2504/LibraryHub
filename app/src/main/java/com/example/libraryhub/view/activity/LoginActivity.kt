@@ -3,6 +3,7 @@ package com.example.libraryhub.view.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -53,22 +54,15 @@ class LoginActivity : AppCompatActivity() {
     private fun initObserver() {
         loginViewModel.user.observe(this) {
             AppPreferences.user = it
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            if (it.role == "user") startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            else if (it.role == "admin") startActivity(Intent(this@LoginActivity, ManagerMainActivity::class.java))
             finish()
         }
         loginViewModel.loginState.observe(this) {
             if (it) {
-                Snackbar.make(
-                    loginBinding.imageView3,
-                    "Login successfully!",
-                    Snackbar.LENGTH_LONG
-                ).show()
+                showSnackBar("Login successfully!")
             } else {
-                Snackbar.make(
-                    loginBinding.imageView3,
-                    "Login failed!",
-                    Snackbar.LENGTH_LONG
-                ).show()
+                showSnackBar("Login failed!")
             }
         }
     }
@@ -90,13 +84,17 @@ class LoginActivity : AppCompatActivity() {
                 val idToken = acct!!.idToken
                 loginViewModel.signInWithGoogle("$idToken")
             } else {
-                Snackbar.make(
-                    loginBinding.imageView3,
-                    "Error when sign in with google!",
-                    Snackbar.LENGTH_LONG
-                ).show()
+                showSnackBar("Error when sign in with google!")
             }
         }
         mGoogleSignInClient.signOut()
+    }
+
+    private fun showSnackBar(msg: String) {
+        Snackbar.make(
+            loginBinding.imageView3,
+            msg,
+            Snackbar.LENGTH_LONG
+        ).show()
     }
 }

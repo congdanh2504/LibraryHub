@@ -51,10 +51,11 @@ class BorrowingFragment : Fragment() {
                 val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                 borrowingBinding.createdDate.text = dateFormatter.format(it.createdDate)
                 borrowingBinding.returnDate.text = dateFormatter.format(it.returnDate)
-                if (!it.status.startsWith("Pending")) borrowingBinding.qr.visibility = View.GONE
-                else borrowingBinding.qr.visibility = View.VISIBLE
+                if (it.status.startsWith("Pending")) borrowingBinding.fab.visibility = View.VISIBLE
+                else borrowingBinding.fab.visibility = View.GONE
                 adapter.setBooks(it.books)
             } else {
+                borrowingBinding.fab.visibility = View.GONE
                 borrowingBinding.borrowRecord.visibility = View.GONE
                 borrowingBinding.borrowingRecycler.visibility = View.GONE
                 borrowingBinding.emptyImage.visibility = View.VISIBLE
@@ -71,7 +72,7 @@ class BorrowingFragment : Fragment() {
             homeViewModel.getBorrowingBooks()
             borrowingBinding.swipeToRefresh.isRefreshing = false
         }
-        borrowingBinding.qrIcon.setOnClickListener {
+        borrowingBinding.fab.setOnClickListener {
             val writer = QRCodeWriter()
             try {
                 val bitMatrix = writer.encode(_id, BarcodeFormat.QR_CODE, 512, 512)

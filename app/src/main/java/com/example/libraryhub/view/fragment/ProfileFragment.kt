@@ -19,10 +19,6 @@ class ProfileFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
     private val user = AppPreferences.user
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
