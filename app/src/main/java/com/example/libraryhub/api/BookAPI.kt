@@ -32,4 +32,7 @@ interface BookAPI {
 
     @GET("user/borrowingbooks")
     suspend fun getBorrowingBooks(): Response<BorrowerRecord>
+
+    @GET("user/recentbooks")
+    suspend fun getRecentBooks(): Response<List<Book>>
 }

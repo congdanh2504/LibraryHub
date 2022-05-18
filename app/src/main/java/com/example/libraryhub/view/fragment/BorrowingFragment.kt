@@ -21,7 +21,7 @@ import java.util.*
 @AndroidEntryPoint
 class BorrowingFragment : Fragment() {
     private lateinit var borrowingBinding: FragmentBorrowingBinding
-    private val homeViewModel: HomeViewModel by activityViewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var adapter: AdapterBorrow
 
     override fun onCreateView(
@@ -29,24 +29,41 @@ class BorrowingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         borrowingBinding = FragmentBorrowingBinding.inflate(inflater, container, false)
+        initActions()
         adapter = AdapterBorrow()
         borrowingBinding.borrowingRecycler.layoutManager = LinearLayoutManager(context)
         borrowingBinding.borrowingRecycler.adapter = adapter
+        homeViewModel._borrowerRecord.postValue(null)
         homeViewModel.getBorrowingBooks()
 
         homeViewModel.borrowerRecord.observe(viewLifecycleOwner) {
-            borrowingBinding.borrowRecord.visibility = View.VISIBLE
-            borrowingBinding.borrowingRecycler.visibility = View.VISIBLE
-            borrowingBinding.emptyImage.visibility = View.GONE
-            borrowingBinding.emptyText.visibility = View.GONE
-            borrowingBinding.status.text = it.status
-            val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            borrowingBinding.createdDate.text = dateFormatter.format(it.createdDate)
-            borrowingBinding.returnDate.text = dateFormatter.format(it.returnDate)
-            adapter.setBooks(it.books)
+            if (it != null) {
+                borrowingBinding.borrowRecord.visibility = View.VISIBLE
+                borrowingBinding.borrowingRecycler.visibility = View.VISIBLE
+                borrowingBinding.emptyImage.visibility = View.GONE
+                borrowingBinding.emptyText.visibility = View.GONE
+                borrowingBinding.status.text = it.status
+                val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                borrowingBinding.createdDate.text = dateFormatter.format(it.createdDate)
+                borrowingBinding.returnDate.text = dateFormatter.format(it.returnDate)
+                adapter.setBooks(it.books)
+            } else {
+                borrowingBinding.borrowRecord.visibility = View.GONE
+                borrowingBinding.borrowingRecycler.visibility = View.GONE
+                borrowingBinding.emptyImage.visibility = View.VISIBLE
+                borrowingBinding.emptyText.visibility = View.VISIBLE
+            }
         }
 
         return borrowingBinding.root
+    }
+
+    private fun initActions() {
+        borrowingBinding.swipeToRefresh.setOnRefreshListener {
+            homeViewModel._borrowerRecord.postValue(null)
+            homeViewModel.getBorrowingBooks()
+            borrowingBinding.swipeToRefresh.isRefreshing = false
+        }
     }
 
 }

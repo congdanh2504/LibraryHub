@@ -116,7 +116,7 @@ class BookDetailFragment : Fragment() {
             }
             AppPreferences.cart = tempCart
             Snackbar.make(
-                bookDetailBinding.imageView6,
+                bookDetailBinding.textView10,
                 """Add "${args.book.name}" to the cart""",
                 Snackbar.LENGTH_LONG
             ).show()
