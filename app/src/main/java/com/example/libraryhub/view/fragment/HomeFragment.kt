@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
-import com.example.libraryhub.adapter.AdapterTab
+import com.example.libraryhub.adapter.TabAdapter
 import com.example.libraryhub.databinding.FragmentHomeBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -24,7 +24,7 @@ class HomeFragment : Fragment() {
         data.add(BorrowingFragment())
         data.add(RecentFragment())
         data.add(RequestedFragment())
-        val adapter = AdapterTab(this, data)
+        val adapter = TabAdapter(this, data)
         viewPager = homeBinding.homeViewPager
         viewPager.adapter = adapter
         val tabLayout = homeBinding.HomeTabLayout

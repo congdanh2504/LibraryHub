@@ -1,7 +1,6 @@
 package com.example.libraryhub.adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +9,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.libraryhub.R
-import com.example.libraryhub.model.CartBook
 import com.example.libraryhub.model.QuantityBook
 import com.squareup.picasso.Picasso
 
-class AdapterBorrow() :
-    RecyclerView.Adapter<AdapterBorrow.ViewHolder>() {
+class BorrowerAdapter() :
+    RecyclerView.Adapter<BorrowerAdapter.ViewHolder>() {
     private var oldList: List<QuantityBook> = arrayListOf()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

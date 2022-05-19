@@ -4,28 +4,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.libraryhub.R
-import com.example.libraryhub.model.Book
+import com.example.libraryhub.model.Review
 import com.squareup.picasso.Picasso
 
-class AdapterBook(private val onBookClick: (Book) -> Unit) :
-    RecyclerView.Adapter<AdapterBook.ViewHolder>() {
-    private var oldList: List<Book> = listOf()
+class ReviewAdapter() :
+    RecyclerView.Adapter<ReviewAdapter.ViewHolder>() {
+    private var oldList: List<Review> = listOf()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name: TextView = view.findViewById(R.id.cardName)
-        val image: ImageView = view.findViewById(R.id.cardThubnail)
-        val author: TextView = view.findViewById(R.id.cardAuthor)
-        val card: CardView = view.findViewById(R.id.card_layout)
+        val username: TextView = view.findViewById(R.id.username)
+        val image: ImageView = view.findViewById(R.id.avatar)
+        val comment: TextView = view.findViewById(R.id.comment)
+        val ratingBar: RatingBar = view.findViewById(R.id.rate)
     }
 
     inner class MyDiffUtil(
-        private val newList: List<Book>,
-        private val oldList: List<Book>
+        private val newList: List<Review>,
+        private val oldList: List<Review>
     ) : DiffUtil.Callback() {
         override fun getOldListSize(): Int {
             return oldList.size
@@ -45,27 +45,25 @@ class AdapterBook(private val onBookClick: (Book) -> Unit) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.book_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.review_item, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.name.text = oldList[position].name
-        holder.author.text = oldList[position].author
+        holder.username.text = oldList[position].user.username
+        holder.comment.text = oldList[position].comment
+        holder.ratingBar.rating = oldList[position].rate.toFloat()
         Picasso.get()
-            .load(oldList[position].picture)
+            .load(oldList[position].user.picture)
             .placeholder(R.drawable.placeholdeimage)
             .into(holder.image)
-        holder.card.setOnClickListener {
-            onBookClick(oldList[position])
-        }
     }
 
     override fun getItemCount(): Int {
         return oldList.size
     }
 
-    fun setBook(newList: List<Book>) {
+    fun setReviews(newList: List<Review>) {
         val diffUtil = MyDiffUtil(oldList = oldList, newList = newList)
         val diffResult = DiffUtil.calculateDiff(diffUtil)
         oldList = newList

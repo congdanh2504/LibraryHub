@@ -6,7 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.libraryhub.R
-import com.example.libraryhub.adapter.AdapterCart
+import com.example.libraryhub.adapter.CartAdapter
 import com.example.libraryhub.databinding.ActivityCartBinding
 import com.example.libraryhub.utils.AppPreferences
 import com.example.libraryhub.viewmodel.CartViewModel
@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class CartActivity : AppCompatActivity() {
     private lateinit var cartBinding: ActivityCartBinding
     private val cartViewModel: CartViewModel by viewModels()
-    private lateinit var adapter: AdapterCart
+    private lateinit var adapter: CartAdapter
     private val user = AppPreferences.user
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +29,7 @@ class CartActivity : AppCompatActivity() {
             .load(AppPreferences.user?.picture)
             .placeholder(R.drawable.profileplaceholder)
             .into(cartBinding.avatar)
-        adapter = AdapterCart()
+        adapter = CartAdapter()
         cartBinding.bookList.layoutManager = LinearLayoutManager(this)
         cartBinding.bookList.adapter = adapter
         AppPreferences.cart?.let { adapter.setBooks(it) }

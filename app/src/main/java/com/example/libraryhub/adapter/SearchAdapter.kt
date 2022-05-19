@@ -11,11 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.libraryhub.R
 import com.example.libraryhub.model.Category
 import com.squareup.picasso.Picasso
-import java.util.*
-import kotlin.collections.ArrayList
 
-class AdapterSearch(private val dataSet : List<Category>, private val onCategoryClick: (Category) -> Unit) :
-    RecyclerView.Adapter<AdapterSearch.SearchViewHolder>() {
+class SearchAdapter(private val dataSet : List<Category>, private val onCategoryClick: (Category) -> Unit) :
+    RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
     class SearchViewHolder(view : View) : RecyclerView.ViewHolder(view){
         val title : TextView

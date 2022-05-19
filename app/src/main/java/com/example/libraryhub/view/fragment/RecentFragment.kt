@@ -1,26 +1,22 @@
 package com.example.libraryhub.view.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.libraryhub.R
-import com.example.libraryhub.adapter.AdapterBook
+import com.example.libraryhub.adapter.BookAdapter
 import com.example.libraryhub.databinding.FragmentRecentBinding
 import com.example.libraryhub.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class RecentFragment : Fragment() {
     private lateinit var recentBinding: FragmentRecentBinding
-    private val homeViewModel: HomeViewModel by viewModels()
-    private lateinit var adapter: AdapterBook
+    private val homeViewModel: HomeViewModel by activityViewModels()
+    private lateinit var adapter: BookAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +24,7 @@ class RecentFragment : Fragment() {
     ): View {
         recentBinding = FragmentRecentBinding.inflate(inflater, container, false)
         initActions()
-        adapter = AdapterBook{}
+        adapter = BookAdapter{}
         recentBinding.recentRecycler.layoutManager = LinearLayoutManager(context)
         recentBinding.recentRecycler.adapter = adapter
         homeViewModel.getRecentBooks()

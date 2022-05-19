@@ -1,19 +1,16 @@
 package com.example.libraryhub.view.fragment
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.libraryhub.R
-import com.example.libraryhub.adapter.AdapterReview
+import com.example.libraryhub.adapter.ReviewAdapter
 import com.example.libraryhub.databinding.FragmentBookDetailBinding
 import com.example.libraryhub.model.Book
 import com.example.libraryhub.model.CartBook
@@ -28,7 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class BookDetailFragment : Fragment() {
     private lateinit var bookDetailBinding: FragmentBookDetailBinding
     private val args: BookDetailFragmentArgs by navArgs()
-    private lateinit var reviewAdapter: AdapterReview
+    private lateinit var reviewAdapter: ReviewAdapter
     private val bookDetailViewModel: BookDetailViewModel by viewModels()
 
     override fun onCreateView(
@@ -62,7 +59,7 @@ class BookDetailFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        reviewAdapter = AdapterReview()
+        reviewAdapter = ReviewAdapter()
         bookDetailBinding.commentRecyclerView.layoutManager = LinearLayoutManager(context)
         reviewAdapter.setReviews(args.book.reviews)
         bookDetailBinding.commentRecyclerView.adapter = reviewAdapter

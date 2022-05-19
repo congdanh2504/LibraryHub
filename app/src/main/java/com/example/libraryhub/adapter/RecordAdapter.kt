@@ -1,31 +1,36 @@
 package com.example.libraryhub.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.libraryhub.R
-import com.example.libraryhub.model.Review
+import com.example.libraryhub.model.BorrowerRecord
+import com.google.android.material.imageview.ShapeableImageView
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.*
 
-class AdapterReview() :
-    RecyclerView.Adapter<AdapterReview.ViewHolder>() {
-    private var oldList: List<Review> = listOf()
+class RecordAdapter(private val context: Context) :
+    RecyclerView.Adapter<RecordAdapter.ViewHolder>() {
+    private var oldList: List<BorrowerRecord> = listOf()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val username: TextView = view.findViewById(R.id.username)
-        val image: ImageView = view.findViewById(R.id.avatar)
-        val comment: TextView = view.findViewById(R.id.comment)
-        val ratingBar: RatingBar = view.findViewById(R.id.rate)
+        val status: TextView = view.findViewById(R.id.status)
+        val borrowDate: TextView = view.findViewById(R.id.createdDate)
+        val returnDate: TextView = view.findViewById(R.id.returnDate)
+        val borrowerRecycler: RecyclerView = view.findViewById(R.id.borrowerRecycler)
+        val avatar: ShapeableImageView = view.findViewById(R.id.avatar)
     }
 
     inner class MyDiffUtil(
-        private val newList: List<Review>,
-        private val oldList: List<Review>
+        private val newList: List<BorrowerRecord>,
+        private val oldList: List<BorrowerRecord>
     ) : DiffUtil.Callback() {
         override fun getOldListSize(): Int {
             return oldList.size
@@ -45,25 +50,31 @@ class AdapterReview() :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.review_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.record_item, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.username.text = oldList[position].user.username
-        holder.comment.text = oldList[position].comment
-        holder.ratingBar.rating = oldList[position].rate.toFloat()
+        holder.status.text = oldList[position].status
+        val dateFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        holder.borrowDate.text = dateFormatter.format(oldList[position].createdDate)
+        holder.returnDate.text = dateFormatter.format(oldList[position].returnDate)
         Picasso.get()
             .load(oldList[position].user.picture)
             .placeholder(R.drawable.placeholdeimage)
-            .into(holder.image)
+            .into(holder.avatar)
+        holder.borrowerRecycler.layoutManager = LinearLayoutManager(context)
+        val adapter = BorrowerAdapter()
+        holder.borrowerRecycler.adapter = adapter
+        adapter.setBooks(oldList[position].books)
     }
 
     override fun getItemCount(): Int {
         return oldList.size
     }
 
-    fun setReviews(newList: List<Review>) {
+    fun setRecords(newList: List<BorrowerRecord>) {
         val diffUtil = MyDiffUtil(oldList = oldList, newList = newList)
         val diffResult = DiffUtil.calculateDiff(diffUtil)
         oldList = newList

@@ -6,7 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.libraryhub.R
-import com.example.libraryhub.adapter.AdapterBorrow
+import com.example.libraryhub.adapter.BorrowerAdapter
 import com.example.libraryhub.databinding.ActivityManagerRecordBinding
 import com.example.libraryhub.model.BorrowerRecord
 import com.example.libraryhub.utils.AppPreferences
@@ -21,7 +21,7 @@ import java.util.*
 class ManagerRecordActivity : AppCompatActivity() {
     private lateinit var managerRecordBinding: ActivityManagerRecordBinding
     private val adminViewModel: AdminViewModel by viewModels()
-    private lateinit var adapter: AdapterBorrow
+    private lateinit var adapter: BorrowerAdapter
     private lateinit var record: BorrowerRecord
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,8 +39,12 @@ class ManagerRecordActivity : AppCompatActivity() {
             .load(AppPreferences.user?.picture)
             .placeholder(R.drawable.profileplaceholder)
             .into(managerRecordBinding.avatar)
+        Picasso.get()
+            .load(record.user.picture)
+            .placeholder(R.drawable.profileplaceholder)
+            .into(managerRecordBinding.userAvatar)
         managerRecordBinding.borrowingRecycler.layoutManager = LinearLayoutManager(this)
-        adapter = AdapterBorrow()
+        adapter = BorrowerAdapter()
         managerRecordBinding.borrowingRecycler.adapter = adapter
         adapter.setBooks(record.books)
         managerRecordBinding.username.text = record.user.username

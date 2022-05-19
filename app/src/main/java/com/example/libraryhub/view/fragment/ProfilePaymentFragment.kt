@@ -5,16 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.libraryhub.adapter.AdapterPackage
+import com.example.libraryhub.adapter.PackageAdapter
 import com.example.libraryhub.databinding.FragmentProfilePaymentBinding
 import com.example.libraryhub.utils.AppPreferences
 import com.example.libraryhub.viewmodel.ProfileViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
 class ProfilePaymentFragment : Fragment() {
@@ -29,7 +27,7 @@ class ProfilePaymentFragment : Fragment() {
         paymentBinding = FragmentProfilePaymentBinding.inflate(inflater, container, false)
         paymentBinding.subscriptionRecyclerView.layoutManager = LinearLayoutManager(context)
         profileViewModel.packages.observe(viewLifecycleOwner) {
-            paymentBinding.subscriptionRecyclerView.adapter = AdapterPackage(it, onBuy, requireContext())
+            paymentBinding.subscriptionRecyclerView.adapter = PackageAdapter(it, onBuy, requireContext())
         }
 
         return paymentBinding.root

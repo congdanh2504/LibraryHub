@@ -30,6 +30,11 @@ class AdminViewModel @Inject constructor(private val adminRepository: AdminRepos
     val confirmState: LiveData<Boolean>
         get() = _confirmState
 
+    private val _records = MutableLiveData<List<BorrowerRecord>>()
+
+    val records: LiveData<List<BorrowerRecord>>
+        get() = _records
+
     fun getRecordById(recordId: String) = viewModelScope.launch {
         adminRepository.getRecordById(recordId).let {
             if (it.isSuccessful) {
@@ -47,6 +52,14 @@ class AdminViewModel @Inject constructor(private val adminRepository: AdminRepos
                 _confirmState.postValue(true)
             } else {
                 _confirmState.postValue(false)
+            }
+        }
+    }
+
+    fun getAllRecord() = viewModelScope.launch {
+        adminRepository.getAllRecord().let {
+            if (it.isSuccessful) {
+                _records.postValue(it.body())
             }
         }
     }

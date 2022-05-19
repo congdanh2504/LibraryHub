@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.libraryhub.R
 import com.example.libraryhub.model.Package
 
-class AdapterPackage(private val dataSet: List<Package>, private val onBuy: (String) -> Unit, private val context: Context) :
-    RecyclerView.Adapter<AdapterPackage.ViewHolder>() {
+class PackageAdapter(private val dataSet: List<Package>, private val onBuy: (String) -> Unit, private val context: Context) :
+    RecyclerView.Adapter<PackageAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.name)
         val price: TextView = view.findViewById(R.id.price)

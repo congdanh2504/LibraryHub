@@ -6,15 +6,14 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.libraryhub.adapter.AdapterRequested
+import com.example.libraryhub.adapter.RequestedAdapter
 import com.example.libraryhub.databinding.FragmentRequestedBinding
 import com.example.libraryhub.model.FileRequestBody
 import com.example.libraryhub.model.RequestedBook
@@ -28,18 +27,18 @@ import okhttp3.MultipartBody
 @AndroidEntryPoint
 class RequestedFragment : Fragment() {
     private lateinit var requestedBinding: FragmentRequestedBinding
-    private val homeViewModel: HomeViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by activityViewModels()
     private lateinit var dialog: RequestDialog
     private lateinit var loadingDialog: LoadingDialog
     private lateinit var requestedBook: RequestedBook
-    private lateinit var adapter: AdapterRequested
+    private lateinit var adapter: RequestedAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         requestedBinding = FragmentRequestedBinding.inflate(inflater, container, false)
-        adapter = AdapterRequested(requireContext(), onDelete)
+        adapter = RequestedAdapter(requireContext(), onDelete)
         requestedBinding.requestedRecycler.layoutManager = LinearLayoutManager(context)
         requestedBinding.requestedRecycler.adapter = adapter
         homeViewModel.getRequestedBooks()

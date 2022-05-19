@@ -11,7 +11,7 @@ import com.example.libraryhub.R
 import com.example.libraryhub.model.Book
 import com.squareup.picasso.Picasso
 
-class AdapterDiscoverChildren(private val dataSet : List<Book>, private val onBookClick: (Book) -> Unit) : RecyclerView.Adapter<AdapterDiscoverChildren.DiscoverViewHolder>() {
+class DiscoverChildrenAdapter(private val dataSet : List<Book>, private val onBookClick: (Book) -> Unit) : RecyclerView.Adapter<DiscoverChildrenAdapter.DiscoverViewHolder>() {
     class DiscoverViewHolder(view : View): RecyclerView.ViewHolder(view){
         val thumbnail : ImageView = view.findViewById(R.id.img_child_item)
         val title : TextView = view.findViewById(R.id.child_item_title)
@@ -21,12 +21,12 @@ class AdapterDiscoverChildren(private val dataSet : List<Book>, private val onBo
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): AdapterDiscoverChildren.DiscoverViewHolder {
+    ): DiscoverChildrenAdapter.DiscoverViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.discover_children_item,parent,false)
         return DiscoverViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: AdapterDiscoverChildren.DiscoverViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DiscoverChildrenAdapter.DiscoverViewHolder, position: Int) {
         Picasso.get()
             .load(dataSet[position].picture)
             .placeholder(R.drawable.placeholdeimage)

@@ -9,16 +9,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.libraryhub.adapter.AdapterBook
-import com.example.libraryhub.adapter.AdapterSearch
+import com.example.libraryhub.adapter.BookAdapter
+import com.example.libraryhub.adapter.SearchAdapter
 import com.example.libraryhub.databinding.FragmentSearchBinding
 import com.example.libraryhub.model.Book
 import com.example.libraryhub.model.Category
 import com.example.libraryhub.viewmodel.SearchViewModel
 import com.jakewharton.rxbinding.widget.RxSearchView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import rx.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
@@ -27,7 +25,7 @@ import java.util.concurrent.TimeUnit
 class SearchFragment : Fragment() {
     private lateinit var searchBinding: FragmentSearchBinding
     private val searchViewModel: SearchViewModel by activityViewModels()
-    private lateinit var adapter: AdapterBook
+    private lateinit var adapter: BookAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,13 +41,13 @@ class SearchFragment : Fragment() {
     private fun initRecyclerView() {
         searchBinding.categoriesRecycler.layoutManager = GridLayoutManager(context,2)
         searchBinding.searchRecyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = AdapterBook(onBookClick)
+        adapter = BookAdapter(onBookClick)
         searchBinding.searchRecyclerView.adapter = adapter
     }
 
     private fun initObserver() {
         searchViewModel.categories.observe(viewLifecycleOwner) {
-            searchBinding.categoriesRecycler.adapter = AdapterSearch(it, onCategoryClick)
+            searchBinding.categoriesRecycler.adapter = SearchAdapter(it, onCategoryClick)
         }
         searchViewModel.searchingBook.observe(viewLifecycleOwner) {
             adapter.setBook(it)

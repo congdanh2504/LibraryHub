@@ -5,22 +5,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.libraryhub.R
-import com.example.libraryhub.model.Book
 import com.example.libraryhub.model.CartBook
 import com.example.libraryhub.utils.AppPreferences
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 
-class AdapterCart() :
-    RecyclerView.Adapter<AdapterCart.ViewHolder>() {
+class CartAdapter() :
+    RecyclerView.Adapter<CartAdapter.ViewHolder>() {
     private var oldList: ArrayList<CartBook> = arrayListOf()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
