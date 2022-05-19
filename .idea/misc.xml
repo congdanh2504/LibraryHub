@@ -45,11 +45,14 @@
         <entry key="..\:/LibraryHub/app/src/main/res/layout/fragment_recent.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/fragment_requested.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/fragment_requested2.xml" value="0.3697916666666667" />
+        <entry key="..\:/LibraryHub/app/src/main/res/layout/fragment_requested_books.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/fragment_search.xml" value="0.3697916666666667" />
+        <entry key="..\:/LibraryHub/app/src/main/res/layout/loading_dialog.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/pack_item.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/package_item.xml" value="0.25" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/qrcode_dialog.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/record_dialog.xml" value="0.3697916666666667" />
+        <entry key="..\:/LibraryHub/app/src/main/res/layout/request_dialog.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/review_item.xml" value="0.18802083333333333" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/search_item.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/subscription_item.xml" value="0.3697916666666667" />

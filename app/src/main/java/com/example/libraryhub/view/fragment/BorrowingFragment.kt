@@ -1,5 +1,7 @@
 package com.example.libraryhub.view.fragment
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
@@ -39,29 +41,7 @@ class BorrowingFragment : Fragment() {
         borrowingBinding.borrowingRecycler.adapter = adapter
         homeViewModel._borrowerRecord.postValue(null)
         homeViewModel.getBorrowingBooks()
-
-        homeViewModel.borrowerRecord.observe(viewLifecycleOwner) {
-            borrowingBinding.fabQr.visibility = View.GONE
-            borrowingBinding.borrowRecord.visibility = View.GONE
-            borrowingBinding.borrowingRecycler.visibility = View.GONE
-            borrowingBinding.fabReturn.visibility = View.GONE
-            borrowingBinding.emptyImage.visibility = View.VISIBLE
-            borrowingBinding.emptyText.visibility = View.VISIBLE
-            if (it != null) {
-                borrowingBinding.borrowRecord.visibility = View.VISIBLE
-                borrowingBinding.borrowingRecycler.visibility = View.VISIBLE
-                borrowingBinding.emptyImage.visibility = View.GONE
-                borrowingBinding.emptyText.visibility = View.GONE
-                borrowingBinding.status.text = it.status
-                _id = it._id
-                val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                borrowingBinding.createdDate.text = dateFormatter.format(it.createdDate)
-                borrowingBinding.returnDate.text = dateFormatter.format(it.returnDate)
-                if (it.status.startsWith("Pending")) borrowingBinding.fabQr.visibility = View.VISIBLE
-                if (it.status == "Borrowing") borrowingBinding.fabReturn.visibility = View.VISIBLE
-                adapter.setBooks(it.books)
-            }
-        }
+        initObserver()
 
         return borrowingBinding.root
     }
@@ -91,7 +71,44 @@ class BorrowingFragment : Fragment() {
             }
         }
         borrowingBinding.fabReturn.setOnClickListener {
-            homeViewModel.returnBooks(homeViewModel.borrowerRecord.value!!._id)
+            val alertDialog = AlertDialog.Builder(context)
+                .setTitle("Returning confirm")
+                .setMessage("Do you want to return?")
+                .setCancelable(false)
+                .setPositiveButton("Yes"
+                ) { _, _ ->
+                    homeViewModel.returnBooks(homeViewModel.borrowerRecord.value!!._id)
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.cancel()
+                }
+                .create()
+            alertDialog.show()
+        }
+    }
+
+    private fun initObserver() {
+        homeViewModel.borrowerRecord.observe(viewLifecycleOwner) {
+            borrowingBinding.fabQr.visibility = View.GONE
+            borrowingBinding.borrowRecord.visibility = View.GONE
+            borrowingBinding.borrowingRecycler.visibility = View.GONE
+            borrowingBinding.fabReturn.visibility = View.GONE
+            borrowingBinding.emptyImage.visibility = View.VISIBLE
+            borrowingBinding.emptyText.visibility = View.VISIBLE
+            if (it != null) {
+                borrowingBinding.borrowRecord.visibility = View.VISIBLE
+                borrowingBinding.borrowingRecycler.visibility = View.VISIBLE
+                borrowingBinding.emptyImage.visibility = View.GONE
+                borrowingBinding.emptyText.visibility = View.GONE
+                borrowingBinding.status.text = it.status
+                _id = it._id
+                val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                borrowingBinding.createdDate.text = dateFormatter.format(it.createdDate)
+                borrowingBinding.returnDate.text = dateFormatter.format(it.returnDate)
+                if (it.status.startsWith("Pending")) borrowingBinding.fabQr.visibility = View.VISIBLE
+                if (it.status == "Borrowing") borrowingBinding.fabReturn.visibility = View.VISIBLE
+                adapter.setBooks(it.books)
+            }
         }
     }
 

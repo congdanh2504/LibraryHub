@@ -1,16 +1,13 @@
 package com.example.libraryhub.view.activity
 
+import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.libraryhub.R
 import com.example.libraryhub.adapter.AdapterCart
 import com.example.libraryhub.databinding.ActivityCartBinding
-import com.example.libraryhub.model.Book
-import com.example.libraryhub.model.CartBook
 import com.example.libraryhub.utils.AppPreferences
 import com.example.libraryhub.viewmodel.CartViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -42,28 +39,41 @@ class CartActivity : AppCompatActivity() {
 
     private fun initActions() {
         cartBinding.borrowButton.setOnClickListener {
-            if (user!!.isExpire()) {
-                showSnackBar("You are not allow to borrow, please buy a packet!")
-                return@setOnClickListener
-            }
-            if (user.isBorrowing) {
-                showSnackBar("You are borrowing, please return before borrow this one")
-                return@setOnClickListener
-            }
-            val selectedBooks = adapter.getSelectedBooks()
-            var quantitySum = 0;
-            selectedBooks.forEach {
-                quantitySum += it.quantity
-            }
-            if (quantitySum == 0) {
-                showSnackBar("Please select books to borrow")
-                return@setOnClickListener
-            }
-            if (quantitySum > user.currentPackage!!.booksPerLoan) {
-                showSnackBar("The number of books exceeds the allowable limit")
-                return@setOnClickListener
-            }
-            cartViewModel.borrowBook(selectedBooks.toList())
+            val alertDialog = AlertDialog.Builder(this)
+                .setTitle("Borrowing confirm")
+                .setMessage("Do you want to return?")
+                .setCancelable(false)
+                .setPositiveButton(
+                    "Yes"
+                ) { _, _ ->
+                    if (user!!.isExpire()) {
+                        showSnackBar("Error: You are not allow to borrow, please buy a packet!")
+                        return@setPositiveButton
+                    }
+                    if (user.isBorrowing) {
+                        showSnackBar("Error: You are borrowing, please return before borrow this one")
+                        return@setPositiveButton
+                    }
+                    val selectedBooks = adapter.getSelectedBooks()
+                    var quantitySum = 0;
+                    selectedBooks.forEach {
+                        quantitySum += it.quantity
+                    }
+                    if (quantitySum == 0) {
+                        showSnackBar("Error: Please select books to borrow")
+                        return@setPositiveButton
+                    }
+                    if (quantitySum > user.currentPackage!!.booksPerLoan) {
+                        showSnackBar("Error: The number of books exceeds the allowable limit")
+                        return@setPositiveButton
+                    }
+                    cartViewModel.borrowBook(selectedBooks.toList())
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.cancel()
+                }
+                .create()
+            alertDialog.show()
         }
     }
 
@@ -88,6 +98,10 @@ class CartActivity : AppCompatActivity() {
             cartBinding.textView,
             msg,
             Snackbar.LENGTH_LONG
-        ).show()
+        ).also { snackbar ->
+            snackbar.setAction("Ok") {
+                snackbar.dismiss()
+            }
+        }.show()
     }
 }

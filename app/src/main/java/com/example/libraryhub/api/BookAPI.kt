@@ -1,11 +1,10 @@
 package com.example.libraryhub.api
 
-import com.example.libraryhub.model.Book
-import com.example.libraryhub.model.BorrowerRecord
-import com.example.libraryhub.model.CartBook
-import com.example.libraryhub.model.Review
+import com.example.libraryhub.model.*
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
+import java.io.File
 
 interface BookAPI {
 
@@ -38,4 +37,11 @@ interface BookAPI {
 
     @POST("user/returnbook/{recordId}")
     suspend fun returnBooks(@Path("recordId") recordId: String): Response<Void>
+
+    @Multipart
+    @POST("uploadpicture")
+    suspend fun uploadPicture(@Part file: MultipartBody.Part): Response<String>
+
+    @POST("user/requestbook")
+    suspend fun requestBook(@Body body: RequestedBook): Response<Void>
 }

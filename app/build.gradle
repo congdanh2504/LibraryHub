@@ -68,6 +68,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
     implementation "androidx.activity:activity-ktx:1.4.0"
+    implementation "androidx.fragment:fragment-ktx:1.4.1"
 
     //dagger-hilt
     implementation "com.google.dagger:hilt-android:2.38.1"
@@ -81,4 +82,5 @@ dependencies {
     implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
 
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+
 }

@@ -48,11 +48,9 @@ class ManagerMainActivity : AppCompatActivity() {
     private fun initObserver() {
         adminViewModel.getRecordState.observe(this) {
             if (it) {
-//                val dialog = RecordDialog(this, adminViewModel.record.value!!)
-//                dialog.show()
-                Intent(this@ManagerMainActivity, ManagerRecordActivity::class.java).also {
-                    it.putExtra("record", adminViewModel.record.value!!)
-                    startActivity(it)
+                Intent(this@ManagerMainActivity, ManagerRecordActivity::class.java).also { intent ->
+                    intent.putExtra("record", adminViewModel.record.value!!)
+                    startActivity(intent)
                 }
             } else {
                 showSnackBar("This QR Code is invalid")

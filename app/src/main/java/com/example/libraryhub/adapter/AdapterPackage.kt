@@ -1,6 +1,8 @@
 package com.example.libraryhub.adapter
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.libraryhub.R
 import com.example.libraryhub.model.Package
 
-class AdapterPackage(private val dataSet: List<Package>,private val onBuy: (String) -> Unit) :
+class AdapterPackage(private val dataSet: List<Package>, private val onBuy: (String) -> Unit, private val context: Context) :
     RecyclerView.Adapter<AdapterPackage.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.name)
@@ -42,7 +44,20 @@ class AdapterPackage(private val dataSet: List<Package>,private val onBuy: (Stri
         holder.benefit2.text = "${dataSet[position].booksPerLoan} per loan"
         holder.benefit3.text = "Can borrow in ${dataSet[position].borrowDays} days"
         holder.selectPlanButton.setOnClickListener {
-            onBuy(dataSet[position]._id)
+            val alertDialog = AlertDialog.Builder(context)
+                .setTitle("Purchase confirm")
+                .setMessage("Do you want to buy ${dataSet[position].name} package?")
+                .setCancelable(false)
+                .setPositiveButton(
+                    "Yes"
+                ) { _, _ ->
+                    onBuy(dataSet[position]._id)
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.cancel()
+                }
+                .create()
+            alertDialog.show()
         }
     }
 

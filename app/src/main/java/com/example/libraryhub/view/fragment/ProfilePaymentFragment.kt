@@ -29,9 +29,8 @@ class ProfilePaymentFragment : Fragment() {
         paymentBinding = FragmentProfilePaymentBinding.inflate(inflater, container, false)
         paymentBinding.subscriptionRecyclerView.layoutManager = LinearLayoutManager(context)
         profileViewModel.packages.observe(viewLifecycleOwner) {
-            paymentBinding.subscriptionRecyclerView.adapter = AdapterPackage(it, onBuy)
+            paymentBinding.subscriptionRecyclerView.adapter = AdapterPackage(it, onBuy, requireContext())
         }
-
 
         return paymentBinding.root
     }
@@ -44,18 +43,18 @@ class ProfilePaymentFragment : Fragment() {
         }
         profileViewModel.buyState.observe(viewLifecycleOwner) { isSuccess ->
             if (isSuccess) {
-                Snackbar.make(
-                    paymentBinding.subscriptionRecyclerView,
-                    "Buying successfully",
-                    Snackbar.LENGTH_LONG
-                ).show()
+                showSnackBar("Buying successfully")
             } else {
-                Snackbar.make(
-                    paymentBinding.subscriptionRecyclerView,
-                    "You are using ${user.currentPackage!!.name} package",
-                    Snackbar.LENGTH_LONG
-                ).show()
+               showSnackBar("Buying failed: You are using ${user.currentPackage!!.name} package")
             }
         }
+    }
+
+    private fun showSnackBar(msg: String) {
+        Snackbar.make(
+            paymentBinding.subscriptionRecyclerView,
+            msg,
+            Snackbar.LENGTH_LONG
+        ).show()
     }
 }
