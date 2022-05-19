@@ -35,6 +35,9 @@ interface BookAPI {
     @GET("user/recentbooks")
     suspend fun getRecentBooks(): Response<List<Book>>
 
+    @GET("user/requestedbooks")
+    suspend fun getRequestedBooks(): Response<List<RequestedBook>>
+
     @POST("user/returnbook/{recordId}")
     suspend fun returnBooks(@Path("recordId") recordId: String): Response<Void>
 

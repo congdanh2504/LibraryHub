@@ -80,7 +80,7 @@ class CartActivity : AppCompatActivity() {
     private fun initObserver() {
         cartViewModel.checkQuantityState.observe(this) {
             if (!it) {
-                showSnackBar("Some books are out of stock")
+                showSnackBar("Error: Some books are out of stock")
             }
         }
         cartViewModel.borrowState.observe(this) {

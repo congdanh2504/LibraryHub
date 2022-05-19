@@ -6,12 +6,15 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.libraryhub.adapter.AdapterRequested
 import com.example.libraryhub.databinding.FragmentRequestedBinding
 import com.example.libraryhub.model.FileRequestBody
 import com.example.libraryhub.model.RequestedBook
@@ -29,12 +32,31 @@ class RequestedFragment : Fragment() {
     private lateinit var dialog: RequestDialog
     private lateinit var loadingDialog: LoadingDialog
     private lateinit var requestedBook: RequestedBook
+    private lateinit var adapter: AdapterRequested
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         requestedBinding = FragmentRequestedBinding.inflate(inflater, container, false)
+        adapter = AdapterRequested()
+        requestedBinding.requestedRecycler.layoutManager = LinearLayoutManager(context)
+        requestedBinding.requestedRecycler.adapter = adapter
+        homeViewModel._requestedBooks.postValue(listOf())
+        homeViewModel.getRequestedBooks()
+        homeViewModel.requestedBooks.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                Log.d("AAA", "$it")
+                requestedBinding.requestedRecycler.visibility = View.VISIBLE
+                requestedBinding.emptyImage.visibility = View.GONE
+                requestedBinding.emptyText.visibility = View.GONE
+                adapter.setBook(it)
+            } else {
+                requestedBinding.requestedRecycler.visibility = View.GONE
+                requestedBinding.emptyImage.visibility = View.VISIBLE
+                requestedBinding.emptyText.visibility = View.VISIBLE
+            }
+        }
         initObserver()
         return requestedBinding.root
     }
@@ -48,6 +70,11 @@ class RequestedFragment : Fragment() {
                 onRequest
             )
             dialog.show()
+        }
+        requestedBinding.swipeToRefresh.setOnRefreshListener {
+            homeViewModel._requestedBooks.postValue(listOf())
+            homeViewModel.getRequestedBooks()
+            requestedBinding.swipeToRefresh.isRefreshing = false
         }
     }
 

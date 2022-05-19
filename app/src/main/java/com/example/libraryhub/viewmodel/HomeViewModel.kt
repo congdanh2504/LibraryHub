@@ -36,6 +36,11 @@ class HomeViewModel @Inject constructor(
     val recentBooks: LiveData<List<Book>>
         get() = _recentBooks
 
+    val _requestedBooks = MutableLiveData<List<RequestedBook>>()
+
+    val requestedBooks: LiveData<List<RequestedBook>>
+        get() = _requestedBooks
+
     private val _uploadPictureState = MutableLiveData<Boolean>()
 
     val uploadPictureState: LiveData<Boolean>
@@ -79,6 +84,14 @@ class HomeViewModel @Inject constructor(
         bookRepository.getRecentBooks().let {
             if (it.isSuccessful && it.body()!!.isNotEmpty()) {
                 _recentBooks.postValue(it.body())
+            }
+        }
+    }
+
+    fun getRequestedBooks() = viewModelScope.launch {
+        bookRepository.getRequestedBooks().let {
+            if (it.isSuccessful && it.body()!!.isNotEmpty()) {
+                _requestedBooks.postValue(it.body())
             }
         }
     }

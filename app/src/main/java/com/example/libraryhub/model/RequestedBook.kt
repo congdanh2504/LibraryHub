@@ -6,5 +6,7 @@ data class RequestedBook(
     val author: String,
     val category: Category,
     var picture: String? = "",
+    var requester: User? = null,
     var isAccepted : Boolean = false,
+    val _id: String? = ""
 )
