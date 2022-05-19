@@ -1,11 +1,11 @@
 package com.example.libraryhub.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.libraryhub.model.BorrowerRecord
+import com.example.libraryhub.model.RequestedBook
 import com.example.libraryhub.repository.AdminRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -35,6 +35,11 @@ class AdminViewModel @Inject constructor(private val adminRepository: AdminRepos
     val records: LiveData<List<BorrowerRecord>>
         get() = _records
 
+    private val _requestedBooks = MutableLiveData<List<RequestedBook>>()
+
+    val requestedBooks: LiveData<List<RequestedBook>>
+        get() = _requestedBooks
+
     fun getRecordById(recordId: String) = viewModelScope.launch {
         adminRepository.getRecordById(recordId).let {
             if (it.isSuccessful) {
@@ -60,6 +65,22 @@ class AdminViewModel @Inject constructor(private val adminRepository: AdminRepos
         adminRepository.getAllRecord().let {
             if (it.isSuccessful) {
                 _records.postValue(it.body())
+            }
+        }
+    }
+
+    fun getRequestedBooks() = viewModelScope.launch {
+        adminRepository.getRequestedBooks().let {
+            if (it.isSuccessful) {
+                _requestedBooks.postValue(it.body())
+            }
+        }
+    }
+
+    fun acceptRequest(bookId: String) = viewModelScope.launch {
+        adminRepository.acceptRequest(bookId).let {
+            if (it.isSuccessful) {
+                getRequestedBooks()
             }
         }
     }

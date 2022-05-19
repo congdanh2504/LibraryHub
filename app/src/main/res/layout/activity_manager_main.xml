@@ -41,16 +41,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center"
-                android:layout_marginEnd="24dp"
-                android:layout_toStartOf="@+id/avatar"
                 android:src="@drawable/bell_icon" />
-
-            <ImageView
-                android:id="@+id/cart"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:src="@drawable/cart_icon" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

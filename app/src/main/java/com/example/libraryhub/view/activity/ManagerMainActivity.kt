@@ -68,7 +68,7 @@ class ManagerMainActivity : AppCompatActivity() {
 
     private fun showSnackBar(msg: String) {
         Snackbar.make(
-            managerMainBinding.cart,
+            managerMainBinding.notification,
             msg,
             Snackbar.LENGTH_LONG
         ).show()

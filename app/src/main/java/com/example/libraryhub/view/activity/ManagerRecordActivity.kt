@@ -80,7 +80,7 @@ class ManagerRecordActivity : AppCompatActivity() {
 
     private fun showSnackBar(msg: String): Snackbar {
         return Snackbar.make(
-            managerRecordBinding.cart,
+            managerRecordBinding.notification,
             msg,
             Snackbar.LENGTH_SHORT
         )

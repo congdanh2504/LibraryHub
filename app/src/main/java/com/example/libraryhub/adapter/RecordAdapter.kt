@@ -64,7 +64,7 @@ class RecordAdapter(private val context: Context) :
             .load(oldList[position].user.picture)
             .placeholder(R.drawable.placeholdeimage)
             .into(holder.avatar)
-        holder.borrowerRecycler.layoutManager = LinearLayoutManager(context)
+        holder.borrowerRecycler.layoutManager = CustomLinearLayoutManager(context)
         val adapter = BorrowerAdapter()
         holder.borrowerRecycler.adapter = adapter
         adapter.setBooks(oldList[position].books)
@@ -79,5 +79,15 @@ class RecordAdapter(private val context: Context) :
         val diffResult = DiffUtil.calculateDiff(diffUtil)
         oldList = newList
         diffResult.dispatchUpdatesTo(this)
+    }
+
+    inner class CustomLinearLayoutManager(context: Context) : LinearLayoutManager(context) {
+        override fun canScrollVertically(): Boolean {
+            return false
+        }
+
+        override fun canScrollHorizontally(): Boolean {
+            return false
+        }
     }
 }
