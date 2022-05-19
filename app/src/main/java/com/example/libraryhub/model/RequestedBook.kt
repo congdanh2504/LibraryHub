@@ -8,5 +8,5 @@ data class RequestedBook(
     var picture: String? = "",
     var requester: User? = null,
     var isAccepted : Boolean = false,
-    val _id: String? = ""
+    val _id: String = ""
 )

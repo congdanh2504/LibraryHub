@@ -1,6 +1,5 @@
 package com.example.libraryhub.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,17 +25,17 @@ class HomeViewModel @Inject constructor(
         getAllCategory()
     }
 
-    val _borrowerRecord = MutableLiveData<BorrowerRecord?>()
+    private val _borrowerRecord = MutableLiveData<BorrowerRecord?>()
 
     val borrowerRecord: LiveData<BorrowerRecord?>
         get() = _borrowerRecord
 
-    val _recentBooks = MutableLiveData<List<Book>>()
+    private val _recentBooks = MutableLiveData<List<Book>>()
 
     val recentBooks: LiveData<List<Book>>
         get() = _recentBooks
 
-    val _requestedBooks = MutableLiveData<List<RequestedBook>>()
+    private val _requestedBooks = MutableLiveData<List<RequestedBook>>()
 
     val requestedBooks: LiveData<List<RequestedBook>>
         get() = _requestedBooks
@@ -76,13 +75,13 @@ class HomeViewModel @Inject constructor(
                 }
             }
         } catch (e: Exception) {
-            Log.d("AAA", "Null value")
+            _borrowerRecord.postValue(null)
         }
     }
 
     fun getRecentBooks() = viewModelScope.launch {
         bookRepository.getRecentBooks().let {
-            if (it.isSuccessful && it.body()!!.isNotEmpty()) {
+            if (it.isSuccessful) {
                 _recentBooks.postValue(it.body())
             }
         }
@@ -90,7 +89,7 @@ class HomeViewModel @Inject constructor(
 
     fun getRequestedBooks() = viewModelScope.launch {
         bookRepository.getRequestedBooks().let {
-            if (it.isSuccessful && it.body()!!.isNotEmpty()) {
+            if (it.isSuccessful) {
                 _requestedBooks.postValue(it.body())
             }
         }
@@ -121,6 +120,14 @@ class HomeViewModel @Inject constructor(
                 _requestState.postValue(true)
             } else {
                 _requestState.postValue(false)
+            }
+        }
+    }
+
+    fun deleteRequestedBook(bookId: String) = viewModelScope.launch {
+        bookRepository.deleteRequestedBook(bookId).let {
+            if (it.isSuccessful) {
+                getRequestedBooks()
             }
         }
     }

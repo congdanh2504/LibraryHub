@@ -1,20 +1,20 @@
 package com.example.libraryhub.adapter
 
+import android.app.AlertDialog
+import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.libraryhub.R
-import com.example.libraryhub.model.Book
 import com.example.libraryhub.model.RequestedBook
 import com.squareup.picasso.Picasso
 
-class AdapterRequested() :
+class AdapterRequested(private val context: Context, private val onDelete: (bookId: String) -> Unit) :
     RecyclerView.Adapter<AdapterRequested.ViewHolder>() {
     private var oldList: List<RequestedBook> = listOf()
 
@@ -23,6 +23,7 @@ class AdapterRequested() :
         val image: ImageView = view.findViewById(R.id.picture)
         val author: TextView = view.findViewById(R.id.author)
         val isAccepted: TextView = view.findViewById(R.id.isAccepted)
+        val remove: ImageView = view.findViewById(R.id.remove)
     }
 
     inner class MyDiffUtil(
@@ -61,6 +62,22 @@ class AdapterRequested() :
         if (oldList[position].isAccepted) {
             holder.isAccepted.text = "Accepted"
             holder.isAccepted.setTextColor(Color.GREEN)
+        }
+        holder.remove.setOnClickListener {
+            val alertDialog = AlertDialog.Builder(context)
+                .setTitle("Borrowing confirm")
+                .setMessage("Do you want to return?")
+                .setCancelable(false)
+                .setPositiveButton(
+                    "Yes"
+                ) { _, _ ->
+                    onDelete(oldList[position]._id)
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.cancel()
+                }
+                .create()
+            alertDialog.show()
         }
     }
 

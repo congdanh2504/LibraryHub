@@ -39,7 +39,6 @@ class BorrowingFragment : Fragment() {
         adapter = AdapterBorrow()
         borrowingBinding.borrowingRecycler.layoutManager = LinearLayoutManager(context)
         borrowingBinding.borrowingRecycler.adapter = adapter
-        homeViewModel._borrowerRecord.postValue(null)
         homeViewModel.getBorrowingBooks()
         initObserver()
 
@@ -48,7 +47,6 @@ class BorrowingFragment : Fragment() {
 
     private fun initActions() {
         borrowingBinding.swipeToRefresh.setOnRefreshListener {
-            homeViewModel._borrowerRecord.postValue(null)
             homeViewModel.getBorrowingBooks()
             borrowingBinding.swipeToRefresh.isRefreshing = false
         }

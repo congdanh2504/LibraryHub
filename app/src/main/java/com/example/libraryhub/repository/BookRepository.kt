@@ -36,4 +36,6 @@ class BookRepository @Inject constructor(private val bookAPI: BookAPI) {
     suspend fun uploadPicture(file: MultipartBody.Part) = bookAPI.uploadPicture(file)
 
     suspend fun requestBook(requestedBook: RequestedBook) = bookAPI.requestBook(requestedBook)
+
+    suspend fun deleteRequestedBook(bookId: String) = bookAPI.deleteRequestedBook(bookId)
 }

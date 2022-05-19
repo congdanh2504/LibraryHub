@@ -31,7 +31,6 @@ class RecentFragment : Fragment() {
         adapter = AdapterBook{}
         recentBinding.recentRecycler.layoutManager = LinearLayoutManager(context)
         recentBinding.recentRecycler.adapter = adapter
-        homeViewModel._recentBooks.postValue(listOf())
         homeViewModel.getRecentBooks()
 
         homeViewModel.recentBooks.observe(viewLifecycleOwner) {
@@ -52,7 +51,6 @@ class RecentFragment : Fragment() {
 
     private fun initActions() {
         recentBinding.swipeToRefresh.setOnRefreshListener {
-            homeViewModel._recentBooks.postValue(listOf())
             homeViewModel.getRecentBooks()
             recentBinding.swipeToRefresh.isRefreshing = false
         }

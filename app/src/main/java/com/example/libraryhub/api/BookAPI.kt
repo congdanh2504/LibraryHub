@@ -30,7 +30,7 @@ interface BookAPI {
     suspend fun borrowBook(@Body body: List<CartBook>): Response<Void>
 
     @GET("user/borrowingbooks")
-    suspend fun getBorrowingBooks(): Response<BorrowerRecord>
+    suspend fun getBorrowingBooks(): Response<BorrowerRecord?>
 
     @GET("user/recentbooks")
     suspend fun getRecentBooks(): Response<List<Book>>
@@ -47,4 +47,7 @@ interface BookAPI {
 
     @POST("user/requestbook")
     suspend fun requestBook(@Body body: RequestedBook): Response<Void>
+
+    @DELETE("user/requestedbook/{bookId}")
+    suspend fun deleteRequestedBook(@Path("bookId") bookId: String): Response<Void>
 }

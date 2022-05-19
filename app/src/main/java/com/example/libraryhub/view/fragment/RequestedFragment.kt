@@ -39,14 +39,13 @@ class RequestedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         requestedBinding = FragmentRequestedBinding.inflate(inflater, container, false)
-        adapter = AdapterRequested()
+        adapter = AdapterRequested(requireContext(), onDelete)
         requestedBinding.requestedRecycler.layoutManager = LinearLayoutManager(context)
         requestedBinding.requestedRecycler.adapter = adapter
-        homeViewModel._requestedBooks.postValue(listOf())
         homeViewModel.getRequestedBooks()
+
         homeViewModel.requestedBooks.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
-                Log.d("AAA", "$it")
                 requestedBinding.requestedRecycler.visibility = View.VISIBLE
                 requestedBinding.emptyImage.visibility = View.GONE
                 requestedBinding.emptyText.visibility = View.GONE
@@ -72,10 +71,13 @@ class RequestedFragment : Fragment() {
             dialog.show()
         }
         requestedBinding.swipeToRefresh.setOnRefreshListener {
-            homeViewModel._requestedBooks.postValue(listOf())
             homeViewModel.getRequestedBooks()
             requestedBinding.swipeToRefresh.isRefreshing = false
         }
+    }
+
+    private val onDelete : (bookId: String) -> Unit = {
+        homeViewModel.deleteRequestedBook(it)
     }
 
     @SuppressLint("Range")
@@ -105,6 +107,7 @@ class RequestedFragment : Fragment() {
         homeViewModel.requestState.observe(viewLifecycleOwner) {
             loadingDialog.dismiss()
             if (it) {
+                homeViewModel.getRequestedBooks()
                 showSnackBar("Request successfully!")
             } else {
                 showSnackBar("Request failed!")
