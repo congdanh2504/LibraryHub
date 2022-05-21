@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.libraryhub.model.AuthUser
 import com.example.libraryhub.model.User
 import com.example.libraryhub.repository.AuthRepository
+import com.example.libraryhub.repository.NotificationRepository
 import com.example.libraryhub.utils.AppPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,7 +16,7 @@ import org.json.JSONObject
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val authRepository: AuthRepository): ViewModel() {
+class LoginViewModel @Inject constructor(private val authRepository: AuthRepository, private val notificationRepository: NotificationRepository): ViewModel() {
 
     private val _user = MutableLiveData<User>()
     private val _loginState = MutableLiveData<Boolean>()
@@ -59,5 +60,9 @@ class LoginViewModel @Inject constructor(private val authRepository: AuthReposit
                 _loginState.postValue(false)
             }
         }
+    }
+
+    fun addDeviceId(deviceId: String) = viewModelScope.launch {
+        notificationRepository.addDeviceId(deviceId)
     }
 }

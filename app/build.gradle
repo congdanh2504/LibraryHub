@@ -5,6 +5,8 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
+    id 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 }
 
 android {
@@ -79,8 +81,13 @@ dependencies {
     //picasso
     implementation 'com.squareup.picasso:picasso:2.8'
 
+    //timing
     implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
 
+    //QRCode
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 
+    //notification
+    implementation platform('com.google.firebase:firebase-bom:30.0.1')
+    implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
 }

@@ -18,6 +18,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.material.snackbar.Snackbar
+import com.onesignal.OneSignal
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -61,6 +62,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun initObserver() {
         loginViewModel.user.observe(this) {
+            OneSignal.getDeviceState()?.let { it2 -> loginViewModel.addDeviceId(it2.userId) }
             AppPreferences.user = it
             if (it.role == "user") startActivity(Intent(this@LoginActivity, MainActivity::class.java))
             else if (it.role == "admin") startActivity(Intent(this@LoginActivity, ManagerMainActivity::class.java))

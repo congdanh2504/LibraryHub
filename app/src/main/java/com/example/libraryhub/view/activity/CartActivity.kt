@@ -1,6 +1,7 @@
 package com.example.libraryhub.view.activity
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -74,6 +75,10 @@ class CartActivity : AppCompatActivity() {
                 }
                 .create()
             alertDialog.show()
+        }
+        cartBinding.notification.setOnClickListener {
+            startActivity(Intent(this@CartActivity, NotificationActivity::class.java))
+            finish()
         }
     }
 

@@ -29,6 +29,7 @@ class DiscoverFragment : Fragment() {
         disBinding.DiscoverRecyclerView.layoutManager = LinearLayoutManager(context)
         discoverViewModel.getDiscover()
         discoverViewModel.discover.observe(viewLifecycleOwner) { it ->
+            disBinding.progressBar.visibility = View.GONE
             val data: List<DiscoverParent> = listOf(DiscoverParent("Top 10 highest rate books", it[0]),
                 DiscoverParent("Top 10 highest borrowed number books", it[1]),
                 DiscoverParent("Top 10 highest review books", it[2].sortedByDescending { it.reviews.size }))

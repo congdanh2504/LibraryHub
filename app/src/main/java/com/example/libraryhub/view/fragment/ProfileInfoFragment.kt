@@ -3,24 +3,25 @@ package com.example.libraryhub.view.fragment
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.viewpager2.widget.ViewPager2
-import com.example.libraryhub.R
-import com.example.libraryhub.databinding.FragmentProfileBinding
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.libraryhub.databinding.FragmentProfileInfoBinding
 import com.example.libraryhub.utils.AppPreferences
 import com.example.libraryhub.view.activity.LoginActivity
+import com.example.libraryhub.viewmodel.ProfileInfoViewModel
+import com.onesignal.OneSignal
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
+@AndroidEntryPoint
 class ProfileInfoFragment : Fragment() {
     private lateinit var fragmentProfileInfoBinding: FragmentProfileInfoBinding
     private val user = AppPreferences.user
+    private val profileInfoViewModel: ProfileInfoViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,11 +48,22 @@ class ProfileInfoFragment : Fragment() {
 
     private fun initActions() {
         fragmentProfileInfoBinding.signOutButton.setOnClickListener {
-            AppPreferences.JWT = ""
-            AppPreferences.user = null
-            AppPreferences.cart = null
-            startActivity(Intent(context, LoginActivity::class.java))
-            activity?.finish()
+            if (OneSignal.getDeviceState() != null) {
+                profileInfoViewModel.deleteDeviceId(OneSignal.getDeviceState()!!.userId)
+                profileInfoViewModel.deleteState.observe(viewLifecycleOwner) {
+                    AppPreferences.JWT = ""
+                    AppPreferences.user = null
+                    AppPreferences.cart = null
+                    startActivity(Intent(context, LoginActivity::class.java))
+                    activity?.finish()
+                }
+            } else {
+                AppPreferences.JWT = ""
+                AppPreferences.user = null
+                AppPreferences.cart = null
+                startActivity(Intent(context, LoginActivity::class.java))
+                activity?.finish()
+            }
         }
     }
 }

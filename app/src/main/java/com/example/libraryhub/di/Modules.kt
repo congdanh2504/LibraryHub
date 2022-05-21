@@ -20,68 +20,43 @@ object Modules {
     fun provideBaseUrl() = Constants.BASE_URL
 
     @Provides
-    @Singleton
-    fun provideAuthAPIInstance(BASE_URL: String) : AuthAPI =
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(OkHttpClient.Builder().addInterceptor { chain ->
-                val request = chain.request().newBuilder().addHeader("Authorization", "Bearer ${AppPreferences.JWT}").build()
-                chain.proceed(request)
-            }.build())
-            .build()
-            .create(AuthAPI::class.java)
+    fun provideRetrofitBuilder(BASE_URL: String): Retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(ScalarsConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(OkHttpClient.Builder().addInterceptor { chain ->
+            val request = chain.request().newBuilder().addHeader("Authorization", "Bearer ${AppPreferences.JWT}").build()
+            chain.proceed(request)
+        }.build())
+        .build()
 
     @Provides
     @Singleton
-    fun provideCategoryAPIInstance(BASE_URL: String) : CategoryAPI =
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(CategoryAPI::class.java)
+    fun provideAuthAPIInstance(builder: Retrofit) : AuthAPI =
+        builder.create(AuthAPI::class.java)
 
     @Provides
     @Singleton
-    fun provideBookAPIInstance(BASE_URL: String) : BookAPI =
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(OkHttpClient.Builder().addInterceptor { chain ->
-                val request = chain.request().newBuilder().addHeader("Authorization", "Bearer ${AppPreferences.JWT}").build()
-                chain.proceed(request)
-            }.build())
-            .build()
-            .create(BookAPI::class.java)
+    fun provideCategoryAPIInstance(builder: Retrofit) : CategoryAPI =
+        builder.create(CategoryAPI::class.java)
 
     @Provides
     @Singleton
-    fun providePackageAPIInstance(BASE_URL: String) : PackageAPI =
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(OkHttpClient.Builder().addInterceptor { chain ->
-                val request = chain.request().newBuilder().addHeader("Authorization", "Bearer ${AppPreferences.JWT}").build()
-                chain.proceed(request)
-            }.build())
-            .build()
-            .create(PackageAPI::class.java)
+    fun provideBookAPIInstance(builder: Retrofit) : BookAPI =
+        builder.create(BookAPI::class.java)
 
     @Provides
     @Singleton
-    fun provideAdminAPIInstance(BASE_URL: String) : AdminAPI =
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(OkHttpClient.Builder().addInterceptor { chain ->
-                val request = chain.request().newBuilder().addHeader("Authorization", "Bearer ${AppPreferences.JWT}").build()
-                chain.proceed(request)
-            }.build())
-            .build()
-            .create(AdminAPI::class.java)
+    fun providePackageAPIInstance(builder: Retrofit) : PackageAPI =
+        builder.create(PackageAPI::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAdminAPIInstance(builder: Retrofit) : AdminAPI =
+        builder.create(AdminAPI::class.java)
+
+    @Provides
+    @Singleton
+    fun provideNotificationAPIInstance(builder: Retrofit) : NotificationAPI =
+        builder.create(NotificationAPI::class.java)
 }

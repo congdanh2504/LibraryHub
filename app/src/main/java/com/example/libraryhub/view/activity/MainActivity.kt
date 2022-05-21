@@ -39,5 +39,8 @@ class MainActivity : AppCompatActivity() {
         mainBinding.cart.setOnClickListener {
             startActivity(Intent(this@MainActivity, CartActivity::class.java))
         }
+        mainBinding.notification.setOnClickListener {
+            startActivity(Intent(this@MainActivity, NotificationActivity::class.java))
+        }
     }
 }
