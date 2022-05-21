@@ -8,4 +8,8 @@ class NotificationRepository @Inject constructor(private val notificationAPI: No
     suspend fun addDeviceId(deviceId: String) = notificationAPI.addDeviceId(deviceId)
 
     suspend fun deleteDeviceId(deviceId: String) = notificationAPI.deleteDeviceId(deviceId)
+
+    suspend fun getNotifications() = notificationAPI.getNotifications()
+
+    suspend fun deleteNotification(notificationId: String) = notificationAPI.deleteNotification(notificationId)
 }

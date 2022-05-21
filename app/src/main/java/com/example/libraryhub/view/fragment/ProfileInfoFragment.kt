@@ -34,7 +34,7 @@ class ProfileInfoFragment : Fragment() {
 
         if (!user.isExpire()) {
             fragmentProfileInfoBinding.currentPackage.text = user.currentPackage!!.name
-            val dateFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            val dateFormatter = SimpleDateFormat("EEE, MMM d, yyyy HH:mm", Locale.getDefault())
             fragmentProfileInfoBinding.expiration.text = dateFormatter.format(user.expiration!!)
         }
         if (user.isBorrowing) {

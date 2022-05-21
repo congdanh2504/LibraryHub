@@ -99,7 +99,7 @@ class BorrowingFragment : Fragment() {
                 borrowingBinding.emptyText.visibility = View.GONE
                 borrowingBinding.status.text = it.status
                 _id = it._id
-                val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val dateFormatter = SimpleDateFormat("EEE, MMM d, yyyy HH:mm", Locale.getDefault())
                 borrowingBinding.createdDate.text = dateFormatter.format(it.createdDate)
                 borrowingBinding.returnDate.text = dateFormatter.format(it.returnDate)
                 if (it.status.startsWith("Pending")) borrowingBinding.fabQr.visibility = View.VISIBLE

@@ -57,7 +57,7 @@ class RecordAdapter(private val context: Context) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.username.text = oldList[position].user.username
         holder.status.text = oldList[position].status
-        val dateFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val dateFormatter = SimpleDateFormat("EEE, MMM d, yyyy HH:mm", Locale.getDefault())
         holder.borrowDate.text = dateFormatter.format(oldList[position].createdDate)
         holder.returnDate.text = dateFormatter.format(oldList[position].returnDate)
         Picasso.get()

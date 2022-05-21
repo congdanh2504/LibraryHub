@@ -49,7 +49,7 @@ class ManagerRecordActivity : AppCompatActivity() {
         adapter.setBooks(record.books)
         managerRecordBinding.username.text = record.user.username
         managerRecordBinding.status.text = record.status
-        val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val dateFormatter = SimpleDateFormat("EEE, MMM d, yyyy HH:mm", Locale.getDefault())
         managerRecordBinding.createdDate.text = dateFormatter.format(record.createdDate)
         managerRecordBinding.returnDate.text = dateFormatter.format(record.returnDate)
         if (!record.status.startsWith("Pending")) managerRecordBinding.acceptButton.visibility = View.GONE

@@ -48,7 +48,6 @@ class BorrowerRecordFragment : Fragment() {
                 borrowerRecordBinding.emptyImage.visibility = View.VISIBLE
                 borrowerRecordBinding.emptyText.visibility = View.VISIBLE
             }
-
         }
     }
 
