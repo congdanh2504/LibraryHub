@@ -43,6 +43,9 @@ class ManagerMainActivity : AppCompatActivity() {
             intentIntegrator.setDesiredBarcodeFormats(listOf(IntentIntegrator.QR_CODE))
             intentIntegrator.initiateScan()
         }
+        managerMainBinding.notification.setOnClickListener {
+            startActivity(Intent(this@ManagerMainActivity, NotificationActivity::class.java))
+        }
     }
 
     private fun initObserver() {

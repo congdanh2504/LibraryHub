@@ -24,6 +24,7 @@ class NotificationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         notificationBinding = ActivityNotificationBinding.inflate(layoutInflater)
         setContentView(notificationBinding.root)
+        if (AppPreferences.user!!.role == "admin") notificationBinding.cart.visibility = View.GONE
         Picasso.get()
             .load(AppPreferences.user?.picture)
             .placeholder(R.drawable.profileplaceholder)
