@@ -2,20 +2,18 @@ package com.example.libraryhub.repository
 
 import com.example.libraryhub.api.BookAPI
 import com.example.libraryhub.model.CartBook
-import com.example.libraryhub.model.PictureRequest
 import com.example.libraryhub.model.RequestedBook
 import com.example.libraryhub.model.Review
 import okhttp3.MultipartBody
-import java.io.File
 import javax.inject.Inject
 
 class BookRepository @Inject constructor(private val bookAPI: BookAPI) {
 
     suspend fun getDiscover() = bookAPI.getDiscover()
 
-    suspend fun getBooksByCategory(categoryId: String) = bookAPI.getBooksByCategory(categoryId)
+    suspend fun getBooksByCategory(categoryId: String, skip: Int) = bookAPI.getBooksByCategory(categoryId, skip)
 
-    suspend fun search(query: String) = bookAPI.search(query)
+    suspend fun search(query: String, skip: Int) = bookAPI.search(query, skip)
 
     suspend fun getBook(bookId: String) = bookAPI.getBook(bookId)
 
@@ -27,9 +25,9 @@ class BookRepository @Inject constructor(private val bookAPI: BookAPI) {
 
     suspend fun getBorrowingBooks() = bookAPI.getBorrowingBooks()
 
-    suspend fun getRecentBooks() = bookAPI.getRecentBooks()
+    suspend fun getRecentBooks(skip: Int) = bookAPI.getRecentBooks(skip)
 
-    suspend fun getRequestedBooks() = bookAPI.getRequestedBooks()
+    suspend fun getRequestedBooks(skip: Int) = bookAPI.getRequestedBooks(skip)
 
     suspend fun returnBooks(recordId: String) = bookAPI.returnBooks(recordId)
 

@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.libraryhub.R
+import com.example.libraryhub.model.Book
 import com.example.libraryhub.model.RequestedBook
 import com.squareup.picasso.Picasso
 
@@ -65,8 +66,8 @@ class RequestedAdapter(private val context: Context, private val onDelete: (book
         }
         holder.remove.setOnClickListener {
             val alertDialog = AlertDialog.Builder(context)
-                .setTitle("Borrowing confirm")
-                .setMessage("Do you want to return?")
+                .setTitle("Deletion confirm")
+                .setMessage("Do you want to delete?")
                 .setCancelable(false)
                 .setPositiveButton(
                     "Yes"
@@ -84,6 +85,13 @@ class RequestedAdapter(private val context: Context, private val onDelete: (book
     override fun getItemCount(): Int {
         return oldList.size
     }
+
+//    fun setEmpty() {
+//        val diffUtil = MyDiffUtil(oldList = oldList, newList = listOf())
+//        val diffResult = DiffUtil.calculateDiff(diffUtil)
+//        oldList = listOf()
+//        diffResult.dispatchUpdatesTo(this)
+//    }
 
     fun setBook(newList: List<RequestedBook>) {
         val diffUtil = MyDiffUtil(oldList = oldList, newList = newList)

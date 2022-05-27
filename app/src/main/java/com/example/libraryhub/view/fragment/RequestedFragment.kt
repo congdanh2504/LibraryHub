@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.libraryhub.adapter.RequestedAdapter
 import com.example.libraryhub.databinding.FragmentRequestedBinding
 import com.example.libraryhub.model.FileRequestBody
@@ -32,6 +33,7 @@ class RequestedFragment : Fragment() {
     private lateinit var loadingDialog: LoadingDialog
     private lateinit var requestedBook: RequestedBook
     private lateinit var adapter: RequestedAdapter
+    private var isLoading = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,19 +44,6 @@ class RequestedFragment : Fragment() {
         requestedBinding.requestedRecycler.layoutManager = LinearLayoutManager(context)
         requestedBinding.requestedRecycler.adapter = adapter
         homeViewModel.getRequestedBooks()
-
-        homeViewModel.requestedBooks.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                requestedBinding.requestedRecycler.visibility = View.VISIBLE
-                requestedBinding.emptyImage.visibility = View.GONE
-                requestedBinding.emptyText.visibility = View.GONE
-                adapter.setBook(it)
-            } else {
-                requestedBinding.requestedRecycler.visibility = View.GONE
-                requestedBinding.emptyImage.visibility = View.VISIBLE
-                requestedBinding.emptyText.visibility = View.VISIBLE
-            }
-        }
         initObserver()
         return requestedBinding.root
     }
@@ -70,9 +59,21 @@ class RequestedFragment : Fragment() {
             dialog.show()
         }
         requestedBinding.swipeToRefresh.setOnRefreshListener {
-            homeViewModel.getRequestedBooks()
+            homeViewModel.refreshRequestedBooks()
             requestedBinding.swipeToRefresh.isRefreshing = false
         }
+
+        requestedBinding.requestedRecycler.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE && !isLoading) {
+                    requestedBinding.progressBar.visibility = View.VISIBLE
+                    isLoading = true
+                    homeViewModel.getRequestedBooks()
+                }
+            }
+        })
     }
 
     private val onDelete : (bookId: String) -> Unit = {
@@ -100,13 +101,27 @@ class RequestedFragment : Fragment() {
     }
 
     private fun initObserver() {
+        homeViewModel.requestedBooks.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                requestedBinding.requestedRecycler.visibility = View.VISIBLE
+                requestedBinding.emptyImage.visibility = View.GONE
+                requestedBinding.emptyText.visibility = View.GONE
+                adapter.setBook(it)
+            } else if (!isLoading) {
+                requestedBinding.requestedRecycler.visibility = View.GONE
+                requestedBinding.emptyImage.visibility = View.VISIBLE
+                requestedBinding.emptyText.visibility = View.VISIBLE
+            }
+            isLoading = false
+            requestedBinding.progressBar.visibility = View.GONE
+        }
         homeViewModel.categories.observe(viewLifecycleOwner) {
             initActions()
         }
         homeViewModel.requestState.observe(viewLifecycleOwner) {
             loadingDialog.dismiss()
             if (it) {
-                homeViewModel.getRequestedBooks()
+                homeViewModel.refreshRequestedBooks()
                 showSnackBar("Request successfully!")
             } else {
                 showSnackBar("Request failed!")

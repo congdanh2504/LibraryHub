@@ -9,9 +9,9 @@ class AdminRepository @Inject constructor(private val adminAPI: AdminAPI) {
 
     suspend fun confirm(recordId: String) = adminAPI.confirm(recordId)
 
-    suspend fun getAllRecord() = adminAPI.getAllRecord()
+    suspend fun getAllRecord(skip: Int) = adminAPI.getAllRecord(skip)
 
-    suspend fun getRequestedBooks() = adminAPI.getRequestedBooks()
+    suspend fun getRequestedBooks(skip: Int) = adminAPI.getRequestedBooks(skip)
 
     suspend fun acceptRequest(bookId: String) = adminAPI.acceptRequest(bookId)
 }

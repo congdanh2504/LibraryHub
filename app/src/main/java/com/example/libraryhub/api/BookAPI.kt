@@ -15,10 +15,10 @@ interface BookAPI {
     suspend fun getBook(@Path("bookId") bookId: String): Response<Book>
 
     @GET("book/category/{categoryId}")
-    suspend fun getBooksByCategory(@Path("categoryId") categoryId: String): Response<List<Book>>
+    suspend fun getBooksByCategory(@Path("categoryId") categoryId: String, @Query("skip") skip: Int, @Query("limit") limit: Int = 10): Response<List<Book>>
 
     @GET("book/search")
-    suspend fun search(@Query("query") query: String): Response<List<Book>>
+    suspend fun search(@Query("query") query: String, @Query("skip")  skip: Int, @Query("limit") limit: Int = 10): Response<List<Book>>
 
     @POST("user/addreview/{bookId}")
     suspend fun addReview(@Path("bookId") bookId: String, @Body review: Review): Response<Void>
@@ -33,10 +33,10 @@ interface BookAPI {
     suspend fun getBorrowingBooks(): Response<BorrowerRecord?>
 
     @GET("user/recentbooks")
-    suspend fun getRecentBooks(): Response<List<Book>>
+    suspend fun getRecentBooks(@Query("skip")  skip: Int, @Query("limit") limit: Int = 10): Response<List<Book>>
 
     @GET("user/requestedbooks")
-    suspend fun getRequestedBooks(): Response<List<RequestedBook>>
+    suspend fun getRequestedBooks(@Query("skip")  skip: Int, @Query("limit") limit: Int = 10): Response<List<RequestedBook>>
 
     @POST("user/returnbook/{recordId}")
     suspend fun returnBooks(@Path("recordId") recordId: String): Response<Void>

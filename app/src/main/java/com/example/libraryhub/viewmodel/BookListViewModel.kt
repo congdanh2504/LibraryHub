@@ -18,9 +18,9 @@ class BookListViewModel @Inject constructor(private val bookRepository: BookRepo
     val books: LiveData<List<Book>>
         get() = _books
 
-    fun getBooksByCategory(categoryId: String) = viewModelScope.launch {
-        bookRepository.getBooksByCategory(categoryId).let {
-            if (it.isSuccessful && it.body()!!.isNotEmpty()) {
+    fun getBooksByCategory(categoryId: String, skip: Int) = viewModelScope.launch {
+        bookRepository.getBooksByCategory(categoryId, skip).let {
+            if (it.isSuccessful) {
                 _books.postValue(it.body())
             }
         }

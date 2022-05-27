@@ -21,6 +21,9 @@ class HomeViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository
 ) : ViewModel() {
 
+    private var requestedSkip = 0
+    private var recentSkip = 0
+
     init {
         getAllCategory()
     }
@@ -30,12 +33,12 @@ class HomeViewModel @Inject constructor(
     val borrowerRecord: LiveData<BorrowerRecord?>
         get() = _borrowerRecord
 
-    private val _recentBooks = MutableLiveData<List<Book>>()
+    private val _recentBooks = MutableLiveData<List<Book>>(listOf())
 
     val recentBooks: LiveData<List<Book>>
         get() = _recentBooks
 
-    private val _requestedBooks = MutableLiveData<List<RequestedBook>>()
+    private val _requestedBooks = MutableLiveData<List<RequestedBook>>(listOf())
 
     val requestedBooks: LiveData<List<RequestedBook>>
         get() = _requestedBooks
@@ -80,16 +83,42 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getRecentBooks() = viewModelScope.launch {
-        bookRepository.getRecentBooks().let {
+        bookRepository.getRecentBooks(recentSkip).let {
             if (it.isSuccessful) {
+                recentSkip += it.body()!!.size
+                val newList: ArrayList<Book> = ArrayList(_recentBooks.value!!)
+                newList.addAll(it.body()!!)
+                _recentBooks.postValue(newList)
+            }
+        }
+    }
+
+    fun refreshRecentBooks() = viewModelScope.launch {
+        recentSkip = 0
+        bookRepository.getRecentBooks(recentSkip).let {
+            if (it.isSuccessful) {
+                recentSkip += it.body()!!.size
                 _recentBooks.postValue(it.body())
             }
         }
     }
 
     fun getRequestedBooks() = viewModelScope.launch {
-        bookRepository.getRequestedBooks().let {
+        bookRepository.getRequestedBooks(requestedSkip).let {
             if (it.isSuccessful) {
+                requestedSkip += it.body()!!.size
+                val newList: ArrayList<RequestedBook> = ArrayList(_requestedBooks.value!!)
+                newList.addAll(it.body()!!)
+                _requestedBooks.postValue(newList)
+            }
+        }
+    }
+
+    fun refreshRequestedBooks() = viewModelScope.launch {
+        requestedSkip = 0
+        bookRepository.getRequestedBooks(requestedSkip).let {
+            if (it.isSuccessful) {
+                requestedSkip += it.body()!!.size
                 _requestedBooks.postValue(it.body())
             }
         }
@@ -127,7 +156,7 @@ class HomeViewModel @Inject constructor(
     fun deleteRequestedBook(bookId: String) = viewModelScope.launch {
         bookRepository.deleteRequestedBook(bookId).let {
             if (it.isSuccessful) {
-                getRequestedBooks()
+                refreshRequestedBooks()
             }
         }
     }

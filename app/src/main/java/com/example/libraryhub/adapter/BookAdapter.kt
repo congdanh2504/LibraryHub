@@ -65,10 +65,21 @@ class BookAdapter(private val onBookClick: (Book) -> Unit) :
         return oldList.size
     }
 
-    fun setBook(newList: List<Book>) {
-        val diffUtil = MyDiffUtil(oldList = oldList, newList = newList)
+    fun setEmpty() {
+        val diffUtil = MyDiffUtil(oldList = oldList, newList = listOf())
         val diffResult = DiffUtil.calculateDiff(diffUtil)
-        oldList = newList
+        oldList = listOf()
+        diffResult.dispatchUpdatesTo(this)
+    }
+
+    fun setBook(newList: List<Book>) {
+        val tempList: ArrayList<Book> = ArrayList(oldList)
+        newList.forEach {
+            tempList.add(it)
+        }
+        val diffUtil = MyDiffUtil(oldList = oldList, newList = tempList)
+        val diffResult = DiffUtil.calculateDiff(diffUtil)
+        oldList = tempList
         diffResult.dispatchUpdatesTo(this)
     }
 }

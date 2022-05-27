@@ -67,7 +67,6 @@ class CartAdapter() :
             .into(holder.image)
         val tempBooks = AppPreferences.cart!!
         holder.select.setOnClickListener {
-            Log.d("AAA", book.id)
             oldList[position].isSelected = !oldList[position].isSelected
         }
         holder.remove.setOnClickListener {

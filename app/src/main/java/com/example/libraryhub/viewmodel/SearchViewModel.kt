@@ -30,8 +30,8 @@ class SearchViewModel @Inject constructor(private val categoryRepository: Catego
         getAllCategory()
     }
 
-    fun search(query: String) = viewModelScope.launch {
-        bookRepository.search(query).let {
+    fun search(query: String, skip: Int) = viewModelScope.launch {
+        bookRepository.search(query, skip).let {
             if (it.isSuccessful) {
                 _searchingBook.postValue(it.body())
             }

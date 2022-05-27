@@ -16,14 +16,9 @@ class SearchAdapter(private val dataSet : List<Category>, private val onCategory
     RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
     class SearchViewHolder(view : View) : RecyclerView.ViewHolder(view){
-        val title : TextView
-        val image : ImageView
-        val card : CardView
-        init {
-            title = view.findViewById(R.id.SearchChildrenTitle)
-            image = view.findViewById(R.id.SearchChildrenImage)
-            card = view.findViewById(R.id.SearchCard)
-        }
+        val title : TextView = view.findViewById(R.id.SearchChildrenTitle)
+        val image : ImageView = view.findViewById(R.id.SearchChildrenImage)
+        val card : CardView = view.findViewById(R.id.SearchCard)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {

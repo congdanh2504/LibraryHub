@@ -42,7 +42,7 @@ class CartActivity : AppCompatActivity() {
         cartBinding.borrowButton.setOnClickListener {
             val alertDialog = AlertDialog.Builder(this)
                 .setTitle("Borrowing confirm")
-                .setMessage("Do you want to return?")
+                .setMessage("Do you want to borrow?")
                 .setCancelable(false)
                 .setPositiveButton(
                     "Yes"

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.libraryhub.adapter.RecordAdapter
 import com.example.libraryhub.adapter.RequestedManagerAdapter
 import com.example.libraryhub.databinding.FragmentRequestedBooksBinding
@@ -16,6 +17,7 @@ class RequestedBooksFragment : Fragment() {
     private lateinit var requestedBooksBinding: FragmentRequestedBooksBinding
     private val adminViewModel: AdminViewModel by activityViewModels()
     private lateinit var adapter: RequestedManagerAdapter
+    private var isLoading = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +39,8 @@ class RequestedBooksFragment : Fragment() {
 
     private fun initObserver() {
         adminViewModel.requestedBooks.observe(viewLifecycleOwner) {
+            isLoading = false
+            requestedBooksBinding.progressBar.visibility = View.GONE
             if (it.isNotEmpty()) {
                 requestedBooksBinding.requestedRecycler.visibility = View.VISIBLE
                 requestedBooksBinding.emptyImage.visibility = View.GONE
@@ -53,9 +57,20 @@ class RequestedBooksFragment : Fragment() {
 
     private fun initActions() {
         requestedBooksBinding.swipeToRefresh.setOnRefreshListener {
-            adminViewModel.getRequestedBooks()
+            adminViewModel.refreshRequestedBooks()
             requestedBooksBinding.swipeToRefresh.isRefreshing = false
         }
+        requestedBooksBinding.requestedRecycler.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE && !isLoading) {
+                    requestedBooksBinding.progressBar.visibility = View.VISIBLE
+                    isLoading = true
+                    adminViewModel.getRequestedBooks()
+                }
+            }
+        })
     }
 
     private val onAccept: (bookId: String) -> Unit = {
