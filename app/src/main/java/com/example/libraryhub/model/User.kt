@@ -10,7 +10,7 @@ data class User(
     val currentPackage: Package? = null,
     val expiration: Date? = null,
     val email: String,
-    val picture: String,
+    var picture: String,
     val role: String,
     val username: String,
     val isBorrowing: Boolean

@@ -10,6 +10,7 @@ import com.example.libraryhub.model.Category
 import com.example.libraryhub.model.RequestedBook
 import com.example.libraryhub.repository.BookRepository
 import com.example.libraryhub.repository.CategoryRepository
+import com.example.libraryhub.repository.DataStoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val bookRepository: BookRepository,
-    private val categoryRepository: CategoryRepository
+    private val categoryRepository: CategoryRepository,
+    private val dataStoreRepository: DataStoreRepository
 ) : ViewModel() {
 
     private var requestedSkip = 0
@@ -26,6 +28,10 @@ class HomeViewModel @Inject constructor(
 
     init {
         getAllCategory()
+    }
+
+    fun saveUser(user: String) = viewModelScope.launch {
+        dataStoreRepository.saveUser(user)
     }
 
     private val _borrowerRecord = MutableLiveData<BorrowerRecord?>()
@@ -52,8 +58,6 @@ class HomeViewModel @Inject constructor(
 
     val categories: LiveData<List<Category>>
         get() = _categories
-
-    private val _picture =  MutableLiveData<String>()
 
     var picture: String = ""
 

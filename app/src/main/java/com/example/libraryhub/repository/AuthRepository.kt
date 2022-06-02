@@ -2,6 +2,7 @@ package com.example.libraryhub.repository
 
 import com.example.libraryhub.api.AuthAPI
 import com.example.libraryhub.model.AuthUser
+import com.example.libraryhub.model.User
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor(private val authAPI: AuthAPI) {
@@ -13,4 +14,6 @@ class AuthRepository @Inject constructor(private val authAPI: AuthAPI) {
     suspend fun signIn(authUser: AuthUser) = authAPI.signIn(authUser)
 
     suspend fun signUp(authUser: AuthUser) = authAPI.signUp(authUser)
+
+    suspend fun updateProfile(user: User) = authAPI.updateProfile(user)
 }

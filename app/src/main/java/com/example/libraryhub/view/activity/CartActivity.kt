@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.libraryhub.R
 import com.example.libraryhub.adapter.CartAdapter
 import com.example.libraryhub.databinding.ActivityCartBinding
+import com.example.libraryhub.model.User
 import com.example.libraryhub.utils.AppPreferences
 import com.example.libraryhub.viewmodel.CartViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,16 +22,20 @@ class CartActivity : AppCompatActivity() {
     private lateinit var cartBinding: ActivityCartBinding
     private val cartViewModel: CartViewModel by viewModels()
     private lateinit var adapter: CartAdapter
-    private val user = AppPreferences.user
+    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         cartBinding = ActivityCartBinding.inflate(layoutInflater)
         setContentView(cartBinding.root)
-        Picasso.get()
-            .load(AppPreferences.user?.picture)
-            .placeholder(R.drawable.profileplaceholder)
-            .into(cartBinding.avatar)
+        cartViewModel.dataStoreUser.observe(this) {
+            val gson = Gson()
+            user = gson.fromJson(it, User::class.java)
+            Picasso.get()
+                .load(user.picture)
+                .placeholder(R.drawable.profileplaceholder)
+                .into(cartBinding.avatar)
+        }
         adapter = CartAdapter()
         cartBinding.bookList.layoutManager = LinearLayoutManager(this)
         cartBinding.bookList.adapter = adapter

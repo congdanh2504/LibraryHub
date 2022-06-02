@@ -31,18 +31,6 @@ object AppPreferences {
             it.putString("jwt", value)
         }
 
-    var user: User?
-        get() {
-            val gson = Gson()
-            val json: String? = preferences.getString("user", "");
-            return gson.fromJson(json, User::class.java);
-        }
-        set(value) = preferences.edit {
-            val gson = Gson()
-            val json = gson.toJson(value)
-            it.putString("user", json)
-        }
-
     var cart: ArrayList<CartBook>?
         get() {
             val gson = Gson()

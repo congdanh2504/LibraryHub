@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.libraryhub.R
 import com.example.libraryhub.adapter.NotificationAdapter
 import com.example.libraryhub.databinding.ActivityNotificationBinding
+import com.example.libraryhub.model.User
 import com.example.libraryhub.utils.AppPreferences
 import com.example.libraryhub.viewmodel.NotificationViewModel
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,11 +26,16 @@ class NotificationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         notificationBinding = ActivityNotificationBinding.inflate(layoutInflater)
         setContentView(notificationBinding.root)
-        if (AppPreferences.user!!.role == "admin") notificationBinding.cart.visibility = View.GONE
-        Picasso.get()
-            .load(AppPreferences.user?.picture)
-            .placeholder(R.drawable.profileplaceholder)
-            .into(notificationBinding.avatar)
+        notificationViewModel.dataStoreUser.observe(this) {
+            val gson = Gson()
+            val user = gson.fromJson(it, User::class.java)
+            if (user!!.role == "admin") notificationBinding.cart.visibility = View.GONE
+            Picasso.get()
+                .load(user.picture)
+                .placeholder(R.drawable.profileplaceholder)
+                .into(notificationBinding.avatar)
+        }
+
         notificationViewModel.getNotifications()
         initRecyclerView()
         initActions()

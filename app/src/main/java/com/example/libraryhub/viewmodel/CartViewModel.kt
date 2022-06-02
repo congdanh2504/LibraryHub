@@ -1,14 +1,14 @@
 package com.example.libraryhub.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.libraryhub.model.CartBook
+import com.example.libraryhub.model.User
 import com.example.libraryhub.repository.AuthRepository
 import com.example.libraryhub.repository.BookRepository
+import com.example.libraryhub.repository.DataStoreRepository
 import com.example.libraryhub.utils.AppPreferences
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,8 +16,11 @@ import javax.inject.Inject
 @HiltViewModel
 class CartViewModel @Inject constructor(
     private val bookRepository: BookRepository,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val dataStoreRepository: DataStoreRepository
 ) : ViewModel() {
+
+    val dataStoreUser = dataStoreRepository.readUser.asLiveData()
 
     private val _checkQuantityState = MutableLiveData<Boolean>()
 
@@ -29,10 +32,16 @@ class CartViewModel @Inject constructor(
     val borrowState: LiveData<Boolean>
         get() = _borrowState
 
+    private fun saveUser(user: User) = viewModelScope.launch {
+        val gson = Gson()
+        val json = gson.toJson(user)
+        dataStoreRepository.saveUser(json)
+    }
+
     private fun getProfile() = viewModelScope.launch {
         authRepository.getProfile().let {
             if (it.isSuccessful) {
-                AppPreferences.user = it.body()
+                saveUser(it.body()!!)
             }
         }
     }
@@ -53,15 +62,4 @@ class CartViewModel @Inject constructor(
             }
         }
     }
-
-//    fun borrowBook(books: List<CartBook>) = viewModelScope.launch {
-//        bookRepository.borrowBook(books).let {
-//            if (it.isSuccessful) {
-//                getProfile()
-//                _borrowState.postValue(true)
-//            } else {
-//                _borrowState.postValue(false)
-//            }
-//        }
-//    }
 }

@@ -9,16 +9,18 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.libraryhub.adapter.PackageAdapter
 import com.example.libraryhub.databinding.FragmentProfilePaymentBinding
+import com.example.libraryhub.model.User
 import com.example.libraryhub.utils.AppPreferences
-import com.example.libraryhub.viewmodel.ProfileViewModel
+import com.example.libraryhub.viewmodel.ProfilePaymentViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProfilePaymentFragment : Fragment() {
     private lateinit var paymentBinding: FragmentProfilePaymentBinding
-    private val profileViewModel: ProfileViewModel by activityViewModels()
-    private val user = AppPreferences.user
+    private val profileViewModel: ProfilePaymentViewModel by activityViewModels()
+    private lateinit var user: User
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +31,10 @@ class ProfilePaymentFragment : Fragment() {
         profileViewModel.packages.observe(viewLifecycleOwner) {
             paymentBinding.subscriptionRecyclerView.adapter = PackageAdapter(it, onBuy, requireContext())
         }
-
+        profileViewModel.dataStoreUser.observe(viewLifecycleOwner) {
+            val gson = Gson()
+            user = gson.fromJson(it, User::class.java)
+        }
         return paymentBinding.root
     }
 

@@ -9,9 +9,11 @@ import com.example.libraryhub.R
 import com.example.libraryhub.adapter.BorrowerAdapter
 import com.example.libraryhub.databinding.ActivityManagerRecordBinding
 import com.example.libraryhub.model.BorrowerRecord
+import com.example.libraryhub.model.User
 import com.example.libraryhub.utils.AppPreferences
 import com.example.libraryhub.viewmodel.AdminViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -35,10 +37,14 @@ class ManagerRecordActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        Picasso.get()
-            .load(AppPreferences.user?.picture)
-            .placeholder(R.drawable.profileplaceholder)
-            .into(managerRecordBinding.avatar)
+        adminViewModel.dataStoreUser.observe(this) {
+            val gson = Gson()
+            val user = gson.fromJson(it, User::class.java)
+            Picasso.get()
+                .load(user?.picture)
+                .placeholder(R.drawable.profileplaceholder)
+                .into(managerRecordBinding.avatar)
+        }
         Picasso.get()
             .load(record.user.picture)
             .placeholder(R.drawable.profileplaceholder)

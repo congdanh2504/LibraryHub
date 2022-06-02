@@ -20,4 +20,7 @@ interface AuthAPI {
     @Headers("Content-Type: application/json")
     @POST("auth/signup")
     suspend fun signUp(@Body authUser: AuthUser): Response<String>
+
+    @POST("user")
+    suspend fun updateProfile(@Body body: User): Response<Void>
 }

@@ -1,20 +1,22 @@
 package com.example.libraryhub.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.libraryhub.model.Book
+import androidx.lifecycle.*
 import com.example.libraryhub.model.BorrowerRecord
 import com.example.libraryhub.model.RequestedBook
 import com.example.libraryhub.repository.AdminRepository
+import com.example.libraryhub.repository.DataStoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AdminViewModel @Inject constructor(private val adminRepository: AdminRepository) :
+class AdminViewModel @Inject constructor(
+    private val adminRepository: AdminRepository,
+    private val dataStoreRepository: DataStoreRepository
+) :
     ViewModel() {
+
+    val dataStoreUser = dataStoreRepository.readUser.asLiveData()
 
     private var recordSkip = 0;
     private var requestedSkip = 0

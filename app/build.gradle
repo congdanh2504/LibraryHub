@@ -90,4 +90,11 @@ dependencies {
     //notification
     implementation platform('com.google.firebase:firebase-bom:30.0.1')
     implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
+
+    //datastore
+    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha01"
+
+    def lifecycle_version = "2.4.0"
+
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 }

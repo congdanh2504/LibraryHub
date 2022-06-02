@@ -10,9 +10,11 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.libraryhub.R
 
 import com.example.libraryhub.databinding.ActivityManagerMainBinding
+import com.example.libraryhub.model.User
 import com.example.libraryhub.utils.AppPreferences
 import com.example.libraryhub.viewmodel.AdminViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import com.google.zxing.integration.android.IntentIntegrator
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,7 +22,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ManagerMainActivity : AppCompatActivity() {
     private lateinit var managerMainBinding: ActivityManagerMainBinding
-    private lateinit var viewPager: ViewPager2
     private val adminViewModel: AdminViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,10 +30,15 @@ class ManagerMainActivity : AppCompatActivity() {
         setContentView(managerMainBinding.root)
         val navController = findNavController(R.id.nav_fragment)
         managerMainBinding.bottomNavigatinView.setupWithNavController(navController)
-        Picasso.get()
-            .load(AppPreferences.user?.picture)
-            .placeholder(R.drawable.profileplaceholder)
-            .into(managerMainBinding.avatar)
+        adminViewModel.dataStoreUser.observe(this) {
+            val gson = Gson()
+            val user = gson.fromJson(it, User::class.java)
+            Picasso.get()
+                .load(user?.picture)
+                .placeholder(R.drawable.profileplaceholder)
+                .into(managerMainBinding.avatar)
+        }
+
         initActions()
         initObserver()
     }

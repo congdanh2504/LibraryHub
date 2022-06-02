@@ -1,18 +1,20 @@
 package com.example.libraryhub.viewmodel
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.libraryhub.model.Notification
+import com.example.libraryhub.repository.DataStoreRepository
 import com.example.libraryhub.repository.NotificationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NotificationViewModel @Inject constructor(private val notificationRepository: NotificationRepository): ViewModel() {
+class NotificationViewModel @Inject constructor(
+    private val notificationRepository: NotificationRepository,
+    private val dataStoreRepository: DataStoreRepository
+) : ViewModel() {
+
+    val dataStoreUser = dataStoreRepository.readUser.asLiveData()
 
     private val _notifications = MutableLiveData<List<Notification>>()
 

@@ -7,9 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(
-    private val dataStoreRepository: DataStoreRepository
-) : ViewModel() {
+class MainViewModel @Inject constructor(private val dataStoreRepository: DataStoreRepository): ViewModel() {
 
     val dataStoreUser = dataStoreRepository.readUser.asLiveData()
 }

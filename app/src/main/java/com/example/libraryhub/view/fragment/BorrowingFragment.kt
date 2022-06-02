@@ -40,7 +40,6 @@ class BorrowingFragment : Fragment() {
         borrowingBinding.borrowingRecycler.adapter = adapter
         homeViewModel.getBorrowingBooks()
         initObserver()
-
         return borrowingBinding.root
     }
 

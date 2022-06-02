@@ -2,10 +2,10 @@ package com.example.libraryhub.view.fragment
 
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,9 +15,11 @@ import com.example.libraryhub.databinding.FragmentBookDetailBinding
 import com.example.libraryhub.model.Book
 import com.example.libraryhub.model.CartBook
 import com.example.libraryhub.model.Review
+import com.example.libraryhub.model.User
 import com.example.libraryhub.utils.AppPreferences
 import com.example.libraryhub.viewmodel.BookDetailViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,12 +29,17 @@ class BookDetailFragment : Fragment() {
     private val args: BookDetailFragmentArgs by navArgs()
     private lateinit var reviewAdapter: ReviewAdapter
     private val bookDetailViewModel: BookDetailViewModel by viewModels()
+    private lateinit var user: User
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         bookDetailBinding = FragmentBookDetailBinding.inflate(inflater, container, false)
+        bookDetailViewModel.dataStoreUser.observe(viewLifecycleOwner) {
+            val gson = Gson()
+            user = gson.fromJson(it, User::class.java)
+        }
         initBook(args.book)
         initRecyclerView()
         initActions()
@@ -75,7 +82,7 @@ class BookDetailFragment : Fragment() {
             val comment: String = bookDetailBinding.comment.text.toString()
             if (comment != "") {
                 val rating: Double = bookDetailBinding.ratingBar2.rating.toDouble()
-                val review = Review(comment, rating, AppPreferences.user!!)
+                val review = Review(comment, rating, user)
                 bookDetailViewModel.addReview(args.book._id, review)
             } else {
                 Snackbar.make(

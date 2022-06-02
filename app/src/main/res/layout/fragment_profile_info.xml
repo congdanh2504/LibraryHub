@@ -164,6 +164,21 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView20"
                 tools:ignore="SpeakableTextPresentCheck" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/updateProfileBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="20dp"
+                android:backgroundTint="@color/white"
+                android:text="Update profile"
+                android:textColor="@color/primary"
+                app:cornerRadius="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/state" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/signOutButton"
@@ -179,7 +194,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/state" />
+                app:layout_constraintTop_toBottomOf="@+id/updateProfileBtn" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

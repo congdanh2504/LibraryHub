@@ -1,20 +1,21 @@
 package com.example.libraryhub.viewmodel
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.libraryhub.model.Book
 import com.example.libraryhub.model.Review
 import com.example.libraryhub.repository.BookRepository
-import com.example.libraryhub.utils.AppPreferences
+import com.example.libraryhub.repository.DataStoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BookDetailViewModel @Inject constructor(private val bookRepository: BookRepository): ViewModel() {
+class BookDetailViewModel @Inject constructor(
+    private val bookRepository: BookRepository,
+    private val dataStoreRepository: DataStoreRepository
+) : ViewModel() {
+
+    val dataStoreUser = dataStoreRepository.readUser.asLiveData()
 
     private val _book = MutableLiveData<Book>()
     val book: LiveData<Book>
