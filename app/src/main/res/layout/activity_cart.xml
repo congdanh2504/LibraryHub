@@ -28,37 +28,19 @@
             app:strokeColor="@color/white"
             app:strokeWidth="1dp" />
 
-        <LinearLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/avatar"
+            app:layout_constraintBottom_toBottomOf="@+id/avatar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/notification"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:src="@drawable/bell_icon" />
-        </LinearLayout>
+            android:text="My cart"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:layout_marginEnd="10dp"
+            android:textStyle="bold"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:text="My cart"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topNav" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/bookList"
@@ -68,7 +50,7 @@
         app:layout_constraintBottom_toTopOf="@+id/borrowButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/topNav" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/borrowButton"

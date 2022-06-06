@@ -2,9 +2,11 @@ package com.example.libraryhub.viewmodel
 
 import androidx.lifecycle.*
 import com.example.libraryhub.model.BorrowerRecord
+import com.example.libraryhub.model.Notification
 import com.example.libraryhub.model.RequestedBook
 import com.example.libraryhub.repository.AdminRepository
 import com.example.libraryhub.repository.DataStoreRepository
+import com.example.libraryhub.repository.NotificationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -12,7 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AdminViewModel @Inject constructor(
     private val adminRepository: AdminRepository,
-    private val dataStoreRepository: DataStoreRepository
+    private val dataStoreRepository: DataStoreRepository,
+    private val notificationRepository: NotificationRepository
 ) :
     ViewModel() {
 
@@ -45,6 +48,19 @@ class AdminViewModel @Inject constructor(
 
     val requestedBooks: LiveData<List<RequestedBook>>
         get() = _requestedBooks
+
+    private val _notifications = MutableLiveData<List<Notification>>()
+
+    val notification: LiveData<List<Notification>>
+        get() = _notifications
+
+    fun getNotifications() = viewModelScope.launch {
+        notificationRepository.getNotifications().let {
+            if (it.isSuccessful) {
+                _notifications.postValue(it.body())
+            }
+        }
+    }
 
     fun getRecordById(recordId: String) = viewModelScope.launch {
         adminRepository.getRecordById(recordId).let {

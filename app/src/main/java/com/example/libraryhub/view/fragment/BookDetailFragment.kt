@@ -2,6 +2,7 @@ package com.example.libraryhub.view.fragment
 
 import android.os.Bundle
 import android.text.SpannableStringBuilder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,8 +21,10 @@ import com.example.libraryhub.utils.AppPreferences
 import com.example.libraryhub.viewmodel.BookDetailViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.reflect.Type
 
 @AndroidEntryPoint
 class BookDetailFragment : Fragment() {
@@ -30,6 +33,7 @@ class BookDetailFragment : Fragment() {
     private lateinit var reviewAdapter: ReviewAdapter
     private val bookDetailViewModel: BookDetailViewModel by viewModels()
     private lateinit var user: User
+    private lateinit var cart: ArrayList<CartBook>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,6 +82,11 @@ class BookDetailFragment : Fragment() {
     }
 
     private fun initActions() {
+        bookDetailViewModel.dataStoreCart.observe(viewLifecycleOwner) {
+            val type: Type = object : TypeToken<ArrayList<CartBook?>?>() {}.type
+            cart = Gson().fromJson(it, type)
+        }
+
         bookDetailBinding.commentButton.setOnClickListener {
             val comment: String = bookDetailBinding.comment.text.toString()
             if (comment != "") {
@@ -94,20 +103,16 @@ class BookDetailFragment : Fragment() {
             bookDetailBinding.comment.text = SpannableStringBuilder("")
         }
         bookDetailBinding.addToCart.setOnClickListener {
-            if (AppPreferences.cart == null) {
-                AppPreferences.cart = ArrayList()
-            }
             var isContain = false
-            val tempCart = AppPreferences.cart
-            for (i in 0 until tempCart!!.size) {
-                if (tempCart[i].id == args.book._id) {
-                    tempCart[i].quantity++
+            for (i in 0 until cart.size) {
+                if (cart[i].id == args.book._id) {
+                    cart[i].quantity++
                     isContain = true
                     break
                 }
             }
             if (!isContain) {
-                tempCart.add(
+                cart.add(
                     CartBook(
                         args.book._id,
                         args.book.name,
@@ -118,7 +123,7 @@ class BookDetailFragment : Fragment() {
                     )
                 )
             }
-            AppPreferences.cart = tempCart
+            bookDetailViewModel.saveCart(cart)
             Snackbar.make(
                 bookDetailBinding.textView10,
                 """Add "${args.book.name}" to the cart""",

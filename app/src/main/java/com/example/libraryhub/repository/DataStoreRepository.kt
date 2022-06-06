@@ -18,6 +18,7 @@ class DataStoreRepository @Inject constructor(@ApplicationContext context: Conte
 
     private object PreferenceKeys {
         val user = preferencesKey<String>("user")
+        val cart = preferencesKey<String>("cart")
     }
 
     suspend fun saveUser(user: String) {
@@ -37,5 +38,24 @@ class DataStoreRepository @Inject constructor(@ApplicationContext context: Conte
         .map { preference ->
             val user = preference[PreferenceKeys.user] ?: ""
             user
+        }
+
+    suspend fun saveCart(cart: String) {
+        dataStore.edit { preference ->
+            preference[PreferenceKeys.cart] = cart
+        }
+    }
+
+    val readCart: Flow<String> = dataStore.data
+        .catch { exception ->
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }
+        .map { preference ->
+            val cart = preference[PreferenceKeys.cart] ?: ""
+            cart
         }
 }

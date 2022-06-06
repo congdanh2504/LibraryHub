@@ -10,8 +10,8 @@
         android:id="@+id/topNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"
         android:paddingVertical="5dp"
+        android:paddingHorizontal="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -21,6 +21,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
+            android:layout_marginStart="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -28,13 +29,13 @@
             app:strokeColor="@color/white"
             app:strokeWidth="1dp" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
+
+        <FrameLayout
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            app:layout_constraintBottom_toBottomOf="@+id/avatar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="@+id/avatar">
 
             <ImageView
                 android:id="@+id/notification"
@@ -42,7 +43,24 @@
                 android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:src="@drawable/bell_icon" />
-        </LinearLayout>
+
+            <TextView
+                android:id="@+id/notificationBadge"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/badge"
+                android:gravity="center"
+                android:text="10"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

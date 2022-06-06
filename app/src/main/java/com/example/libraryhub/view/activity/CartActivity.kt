@@ -3,19 +3,23 @@ package com.example.libraryhub.view.activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.libraryhub.R
 import com.example.libraryhub.adapter.CartAdapter
 import com.example.libraryhub.databinding.ActivityCartBinding
+import com.example.libraryhub.model.CartBook
 import com.example.libraryhub.model.User
 import com.example.libraryhub.utils.AppPreferences
 import com.example.libraryhub.viewmodel.CartViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.reflect.Type
 
 @AndroidEntryPoint
 class CartActivity : AppCompatActivity() {
@@ -29,17 +33,15 @@ class CartActivity : AppCompatActivity() {
         cartBinding = ActivityCartBinding.inflate(layoutInflater)
         setContentView(cartBinding.root)
         cartViewModel.dataStoreUser.observe(this) {
-            val gson = Gson()
-            user = gson.fromJson(it, User::class.java)
+            user = Gson().fromJson(it, User::class.java)
             Picasso.get()
                 .load(user.picture)
                 .placeholder(R.drawable.profileplaceholder)
                 .into(cartBinding.avatar)
         }
-        adapter = CartAdapter()
+        adapter = CartAdapter(onBookChange)
         cartBinding.bookList.layoutManager = LinearLayoutManager(this)
         cartBinding.bookList.adapter = adapter
-        AppPreferences.cart?.let { adapter.setBooks(it) }
         initActions()
         initObserver()
     }
@@ -53,7 +55,7 @@ class CartActivity : AppCompatActivity() {
                 .setPositiveButton(
                     "Yes"
                 ) { _, _ ->
-                    if (user!!.isExpire()) {
+                    if (user.isExpire()) {
                         showSnackBar("Error: You are not allow to borrow, please buy a packet!")
                         return@setPositiveButton
                     }
@@ -82,13 +84,14 @@ class CartActivity : AppCompatActivity() {
                 .create()
             alertDialog.show()
         }
-        cartBinding.notification.setOnClickListener {
-            startActivity(Intent(this@CartActivity, NotificationActivity::class.java))
-            finish()
-        }
     }
 
     private fun initObserver() {
+        cartViewModel.dataStoreCart.observe(this) {
+            val type: Type = object : TypeToken<ArrayList<CartBook?>?>() {}.type
+            val cart: ArrayList<CartBook> = Gson().fromJson(it, type)
+            adapter.setBooks(cart)
+        }
         cartViewModel.checkQuantityState.observe(this) {
             if (!it) {
                 showSnackBar("Error: Some books are out of stock")
@@ -104,9 +107,13 @@ class CartActivity : AppCompatActivity() {
         }
     }
 
+    private val onBookChange : (cart: ArrayList<CartBook>) -> Unit = {
+        cartViewModel.saveCart(it)
+    }
+
     private fun showSnackBar(msg: String) {
         Snackbar.make(
-            cartBinding.textView,
+            cartBinding.avatar,
             msg,
             Snackbar.LENGTH_LONG
         ).also { snackbar ->

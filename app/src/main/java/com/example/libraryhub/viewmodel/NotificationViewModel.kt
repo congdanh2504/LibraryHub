@@ -36,4 +36,8 @@ class NotificationViewModel @Inject constructor(
             }
         }
     }
+
+    fun seenNotifications() = viewModelScope.launch {
+        notificationRepository.seenNotifications()
+    }
 }

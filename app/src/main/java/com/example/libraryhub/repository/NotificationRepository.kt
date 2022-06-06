@@ -12,4 +12,6 @@ class NotificationRepository @Inject constructor(private val notificationAPI: No
     suspend fun getNotifications() = notificationAPI.getNotifications()
 
     suspend fun deleteNotification(notificationId: String) = notificationAPI.deleteNotification(notificationId)
+
+    suspend fun seenNotifications() = notificationAPI.seenNotifications()
 }

@@ -17,4 +17,7 @@ interface NotificationAPI {
 
     @DELETE("user/notification/{notificationId}")
     suspend fun deleteNotification(@Path("notificationId") notificationId: String): Response<Void>
+
+    @PATCH("user/notification")
+    suspend fun seenNotifications(): Response<Void>
 }

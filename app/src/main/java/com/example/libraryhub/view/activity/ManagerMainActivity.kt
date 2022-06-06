@@ -3,6 +3,7 @@ package com.example.libraryhub.view.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -38,9 +39,13 @@ class ManagerMainActivity : AppCompatActivity() {
                 .placeholder(R.drawable.profileplaceholder)
                 .into(managerMainBinding.avatar)
         }
-
         initActions()
         initObserver()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adminViewModel.getNotifications()
     }
 
     private fun initActions() {
@@ -63,6 +68,17 @@ class ManagerMainActivity : AppCompatActivity() {
                 }
             } else {
                 showSnackBar("This QR Code is invalid")
+            }
+        }
+        adminViewModel.notification.observe(this) {
+            val unSeenCount = it.count { notification ->  !notification.isSeen }
+            managerMainBinding.notificationBadge.apply {
+                if (unSeenCount > 0) {
+                    visibility = View.VISIBLE
+                    text = unSeenCount.toString()
+                } else {
+                    visibility = View.GONE
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.example.libraryhub.viewmodel
 
 import androidx.lifecycle.*
+import com.example.libraryhub.model.CartBook
 import com.example.libraryhub.model.User
 import com.example.libraryhub.repository.AuthRepository
 import com.example.libraryhub.repository.BookRepository
@@ -44,6 +45,12 @@ class ProfileInfoViewModel @Inject constructor(
         val gson = Gson()
         val json = gson.toJson(user)
         dataStoreRepository.saveUser(json)
+    }
+
+    fun saveCart(cart: ArrayList<CartBook>) = viewModelScope.launch {
+        val gson = Gson()
+        val json = gson.toJson(cart)
+        dataStoreRepository.saveCart(json)
     }
 
     private fun getProfile() = viewModelScope.launch {

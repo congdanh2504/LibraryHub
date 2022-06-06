@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/LibraryHub/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1925" />
+        <entry key="..\:/LibraryHub/app/src/main/res/drawable/badge.xml" value="0.1435" />
         <entry key="..\:/LibraryHub/app/src/main/res/drawable/badge_background.xml" value="0.27" />
         <entry key="..\:/LibraryHub/app/src/main/res/drawable/book_borrow.xml" value="0.1925" />
         <entry key="..\:/LibraryHub/app/src/main/res/drawable/book_return.xml" value="0.27" />
@@ -24,7 +25,7 @@
         <entry key="..\:/LibraryHub/app/src/main/res/drawable/stroke.xml" value="0.1685" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/activity_cart.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/activity_login.xml" value="0.3697916666666667" />
-        <entry key="..\:/LibraryHub/app/src/main/res/layout/activity_main.xml" value="0.3697916666666667" />
+        <entry key="..\:/LibraryHub/app/src/main/res/layout/activity_main.xml" value="0.2832080200501253" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/activity_manager_main.xml" value="0.2109375" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/activity_manager_record.xml" value="0.3697916666666667" />
         <entry key="..\:/LibraryHub/app/src/main/res/layout/activity_notification.xml" value="0.29583333333333334" />

@@ -1,6 +1,7 @@
 package com.example.libraryhub.adapter
 
 import android.annotation.SuppressLint
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,6 +52,7 @@ class NotificationAdapter: RecyclerView.Adapter<NotificationAdapter.ViewHolder>(
         holder.message.text = oldList[position].message
         val dateFormatter = SimpleDateFormat("EEE, MMM d, yyyy HH:mm", Locale.getDefault())
         holder.createdDate.text = dateFormatter.format(oldList[position].createdDate)
+        if (!oldList[position].isSeen) holder.message.typeface = Typeface.DEFAULT_BOLD
     }
 
     override fun getItemCount(): Int {

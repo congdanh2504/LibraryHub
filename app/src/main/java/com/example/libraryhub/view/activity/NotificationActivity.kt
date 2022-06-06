@@ -9,12 +9,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.libraryhub.R
 import com.example.libraryhub.adapter.NotificationAdapter
 import com.example.libraryhub.databinding.ActivityNotificationBinding
+import com.example.libraryhub.model.CartBook
 import com.example.libraryhub.model.User
 import com.example.libraryhub.utils.AppPreferences
 import com.example.libraryhub.viewmodel.NotificationViewModel
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.reflect.Type
 
 @AndroidEntryPoint
 class NotificationActivity : AppCompatActivity() {
@@ -27,15 +30,12 @@ class NotificationActivity : AppCompatActivity() {
         notificationBinding = ActivityNotificationBinding.inflate(layoutInflater)
         setContentView(notificationBinding.root)
         notificationViewModel.dataStoreUser.observe(this) {
-            val gson = Gson()
-            val user = gson.fromJson(it, User::class.java)
-            if (user!!.role == "admin") notificationBinding.cart.visibility = View.GONE
+            val user = Gson().fromJson(it, User::class.java)
             Picasso.get()
                 .load(user.picture)
                 .placeholder(R.drawable.profileplaceholder)
                 .into(notificationBinding.avatar)
         }
-
         notificationViewModel.getNotifications()
         initRecyclerView()
         initActions()
@@ -49,10 +49,6 @@ class NotificationActivity : AppCompatActivity() {
     }
 
     private fun initActions() {
-        notificationBinding.cart.setOnClickListener {
-            startActivity(Intent(this@NotificationActivity, CartActivity::class.java))
-            finish()
-        }
         notificationBinding.swipeToRefresh.setOnRefreshListener {
             notificationViewModel.getNotifications()
             notificationBinding.swipeToRefresh.isRefreshing = false
@@ -66,6 +62,7 @@ class NotificationActivity : AppCompatActivity() {
                 notificationBinding.emptyImage.visibility = View.GONE
                 notificationBinding.emptyText.visibility = View.GONE
                 adapter.setNotifications(it)
+                notificationViewModel.seenNotifications()
             } else {
                 notificationBinding.notificationRecycler.visibility = View.GONE
                 notificationBinding.emptyImage.visibility = View.VISIBLE

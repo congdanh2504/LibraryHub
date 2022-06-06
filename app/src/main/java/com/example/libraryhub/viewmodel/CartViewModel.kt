@@ -21,6 +21,7 @@ class CartViewModel @Inject constructor(
 ) : ViewModel() {
 
     val dataStoreUser = dataStoreRepository.readUser.asLiveData()
+    val dataStoreCart = dataStoreRepository.readCart.asLiveData()
 
     private val _checkQuantityState = MutableLiveData<Boolean>()
 
@@ -31,6 +32,12 @@ class CartViewModel @Inject constructor(
 
     val borrowState: LiveData<Boolean>
         get() = _borrowState
+
+    fun saveCart(cart: ArrayList<CartBook>) = viewModelScope.launch {
+        val gson = Gson()
+        val json = gson.toJson(cart)
+        dataStoreRepository.saveCart(json)
+    }
 
     private fun saveUser(user: User) = viewModelScope.launch {
         val gson = Gson()

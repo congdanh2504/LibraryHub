@@ -56,13 +56,11 @@ class ManagerProfileFragment : Fragment() {
                 profileInfoViewModel.deleteDeviceId(OneSignal.getDeviceState()!!.userId)
                 profileInfoViewModel.deleteState.observe(viewLifecycleOwner) {
                     AppPreferences.JWT = ""
-                    AppPreferences.cart = null
                     startActivity(Intent(context, LoginActivity::class.java))
                     activity?.finish()
                 }
             } else {
                 AppPreferences.JWT = ""
-                AppPreferences.cart = null
                 startActivity(Intent(context, LoginActivity::class.java))
                 activity?.finish()
             }

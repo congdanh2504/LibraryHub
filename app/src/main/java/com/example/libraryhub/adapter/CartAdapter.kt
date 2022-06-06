@@ -16,7 +16,7 @@ import com.example.libraryhub.utils.AppPreferences
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 
-class CartAdapter() :
+class CartAdapter(private val onBookChange: (ArrayList<CartBook>) -> Unit) :
     RecyclerView.Adapter<CartAdapter.ViewHolder>() {
     private var oldList: ArrayList<CartBook> = arrayListOf()
 
@@ -27,27 +27,6 @@ class CartAdapter() :
         val quantity: TextView = view.findViewById(R.id.quantity)
         val remove: ImageView = view.findViewById(R.id.remove)
         val select: CheckBox = view.findViewById(R.id.select)
-    }
-
-    inner class MyDiffUtil(
-        private val newList: ArrayList<CartBook>,
-        private val oldList: ArrayList<CartBook>
-    ) : DiffUtil.Callback() {
-        override fun getOldListSize(): Int {
-            return oldList.size
-        }
-
-        override fun getNewListSize(): Int {
-            return newList.size
-        }
-
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition].id == newList[newItemPosition].id
-        }
-
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList == newList
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -61,34 +40,30 @@ class CartAdapter() :
         holder.name.text = book.name
         holder.author.text = book.author
         holder.quantity.text = "x${book.quantity}"
+        if (book.isSelected) holder.select.isChecked = true
         Picasso.get()
             .load(book.picture)
             .placeholder(R.drawable.placeholdeimage)
             .into(holder.image)
-        val tempBooks = AppPreferences.cart!!
         holder.select.setOnClickListener {
             oldList[position].isSelected = !oldList[position].isSelected
+            onBookChange(oldList)
         }
         holder.remove.setOnClickListener {
-            if (tempBooks[position].quantity > 1) {
-                tempBooks[position].quantity--
-                holder.quantity.text = "x${tempBooks[position].quantity}"
+            if (oldList[position].quantity > 1) {
+                oldList[position].quantity--
             } else {
-                tempBooks.remove(book)
-                setBooks(tempBooks)
+                oldList.remove(book)
             }
-            AppPreferences.cart = tempBooks
-            Snackbar.make(holder.itemView, """Remove "${book.name}" from the cart""", Snackbar.LENGTH_LONG).setAction("Undo"
-            ) {
-                if (tempBooks[position].quantity > 1) {
-                    tempBooks[position].quantity++
-                    holder.quantity.text = "x${tempBooks[position].quantity}"
+            Snackbar.make(holder.itemView, """Remove "${book.name}" from the cart""", Snackbar.LENGTH_LONG).setAction("Undo") {
+                if (oldList[position].quantity > 1) {
+                    oldList[position].quantity++
                 } else {
-                    tempBooks.add(book)
-                    notifyDataSetChanged()
+                    oldList.add(book)
                 }
-                AppPreferences.cart = tempBooks
+                onBookChange(oldList)
             }.show()
+            onBookChange(oldList)
         }
     }
 
@@ -107,13 +82,11 @@ class CartAdapter() :
     fun deleteSelectedBooks() {
         val newList = oldList.filter { !it.isSelected }
         setBooks(newList as ArrayList<CartBook>)
-        AppPreferences.cart = newList
+        onBookChange(newList)
     }
 
     fun setBooks(newList: ArrayList<CartBook>) {
-        val diffUtil = MyDiffUtil(oldList = oldList, newList = newList)
-        val diffResult = DiffUtil.calculateDiff(diffUtil)
         oldList = newList
-        diffResult.dispatchUpdatesTo(this)
+        notifyDataSetChanged()
     }
 }
