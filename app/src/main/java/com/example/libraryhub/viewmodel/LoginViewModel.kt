@@ -39,12 +39,17 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun getProfile() = viewModelScope.launch {
-        authRepository.getProfile().let {
-            if (it.isSuccessful) {
-                saveUser(it.body()!!)
-                _user.postValue(it.body())
+        try {
+            authRepository.getProfile().let {
+                if (it.isSuccessful) {
+                    saveUser(it.body()!!)
+                    _user.postValue(it.body())
+                }
             }
+        } catch (e: Exception) {
+            Log.d("AAA", "${e.message}")
         }
+
     }
 
     fun signIn(email: String, password: String) = viewModelScope.launch {

@@ -65,6 +65,7 @@ class RecentFragment : Fragment() {
                 recentBinding.emptyImage.visibility = View.VISIBLE
                 recentBinding.emptyText.visibility = View.VISIBLE
             }
+            recentBinding.progressBar.visibility = View.GONE
         }
     }
 

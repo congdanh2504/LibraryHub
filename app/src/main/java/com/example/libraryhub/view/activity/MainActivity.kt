@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         }
         mainViewModel.dataStoreCart.observe(this) {
             val type: Type = object : TypeToken<ArrayList<CartBook?>?>() {}.type
-            val cart: ArrayList<CartBook> = Gson().fromJson(it, type)
+            val cart: ArrayList<CartBook> = Gson().fromJson(it, type) ?: arrayListOf()
             if (cart.isNotEmpty()) {
                 mainBinding.cartBadge.apply {
                     visibility = View.VISIBLE
