@@ -27,9 +27,7 @@ class SearchFragment : Fragment() {
     private lateinit var searchBinding: FragmentSearchBinding
     private val searchViewModel: SearchViewModel by activityViewModels()
     private lateinit var adapter: BookAdapter
-    private var isEnd = false
     private var isLoading = false
-    private var skip = 0
     private var keyWord: String = ""
 
     override fun onCreateView(
@@ -52,10 +50,10 @@ class SearchFragment : Fragment() {
             RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE && !isEnd && !isLoading) {
+                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE && !isLoading) {
                     searchBinding.progressBar.visibility = View.VISIBLE
                     isLoading = true
-                    searchViewModel.search(keyWord, skip)
+                    searchViewModel.search(keyWord)
                 }
             }
         })
@@ -70,9 +68,6 @@ class SearchFragment : Fragment() {
             searchBinding.progressBar.visibility = View.GONE
             if (it.isNotEmpty()) {
                 adapter.setBook(it)
-                skip += it.size
-            } else {
-                isEnd = true
             }
         }
     }
@@ -96,7 +91,7 @@ class SearchFragment : Fragment() {
                 if (query != "") {
                     resetSearchState()
                     keyWord = query
-                    searchViewModel.search(query, skip)
+                    searchViewModel.search(query)
                     searchBinding.categoriesRecycler.visibility = View.GONE
                     searchBinding.searchRecyclerView.visibility = View.VISIBLE
                 } else {
@@ -108,7 +103,6 @@ class SearchFragment : Fragment() {
 
     private fun resetSearchState() {
         adapter.setEmpty()
-        skip = 0
-        isEnd = false
+        searchViewModel.refreshSearching()
     }
 }

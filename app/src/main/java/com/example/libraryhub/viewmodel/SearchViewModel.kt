@@ -18,7 +18,9 @@ class SearchViewModel @Inject constructor(private val categoryRepository: Catego
                                           private val bookRepository: BookRepository): ViewModel() {
 
     private val _categories = MutableLiveData<List<Category>>()
-    private val _searchingBook = MutableLiveData<List<Book>>()
+    private val _searchingBook = MutableLiveData<List<Book>>(listOf())
+
+    var searchSkip = 0
 
     val categories: LiveData<List<Category>>
         get() = _categories
@@ -30,12 +32,20 @@ class SearchViewModel @Inject constructor(private val categoryRepository: Catego
         getAllCategory()
     }
 
-    fun search(query: String, skip: Int) = viewModelScope.launch {
-        bookRepository.search(query, skip).let {
+    fun search(query: String) = viewModelScope.launch {
+        bookRepository.search(query, searchSkip).let {
             if (it.isSuccessful) {
-                _searchingBook.postValue(it.body())
+                searchSkip += it.body()!!.size
+                val newList: ArrayList<Book> = ArrayList(_searchingBook.value!!)
+                newList.addAll(it.body()!!)
+                _searchingBook.postValue(newList)
             }
         }
+    }
+
+    fun refreshSearching() {
+        searchSkip = 0
+        _searchingBook.postValue(listOf())
     }
 
     private fun getAllCategory() = viewModelScope.launch {
