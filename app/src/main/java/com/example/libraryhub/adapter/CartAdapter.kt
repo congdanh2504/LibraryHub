@@ -8,17 +8,16 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.libraryhub.R
 import com.example.libraryhub.model.CartBook
-import com.example.libraryhub.utils.AppPreferences
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 
 class CartAdapter(private val onBookChange: (ArrayList<CartBook>) -> Unit) :
     RecyclerView.Adapter<CartAdapter.ViewHolder>() {
     private var oldList: ArrayList<CartBook> = arrayListOf()
+    private lateinit var cloneBook: CartBook
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.name)
@@ -49,17 +48,23 @@ class CartAdapter(private val onBookChange: (ArrayList<CartBook>) -> Unit) :
             oldList[position].isSelected = !oldList[position].isSelected
             onBookChange(oldList)
         }
+
         holder.remove.setOnClickListener {
+            cloneBook = book.copy()
             if (oldList[position].quantity > 1) {
                 oldList[position].quantity--
             } else {
                 oldList.remove(book)
             }
-            Snackbar.make(holder.itemView, """Remove "${book.name}" from the cart""", Snackbar.LENGTH_LONG).setAction("Undo") {
-                if (oldList[position].quantity > 1) {
+            Snackbar.make(
+                holder.itemView,
+                """Remove "${book.name}" from the cart""",
+                Snackbar.LENGTH_LONG
+            ).setAction("Undo") {
+                if (cloneBook.quantity > 1) {
                     oldList[position].quantity++
                 } else {
-                    oldList.add(book)
+                    oldList.add(cloneBook)
                 }
                 onBookChange(oldList)
             }.show()
@@ -71,7 +76,7 @@ class CartAdapter(private val onBookChange: (ArrayList<CartBook>) -> Unit) :
         return oldList.size
     }
 
-    fun getSelectedBooks() : ArrayList<CartBook> {
+    fun getSelectedBooks(): ArrayList<CartBook> {
         val selectedBooks: ArrayList<CartBook> = arrayListOf()
         oldList.forEach {
             if (it.isSelected) selectedBooks.add(it)

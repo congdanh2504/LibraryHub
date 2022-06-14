@@ -89,7 +89,7 @@ class CartActivity : AppCompatActivity() {
     private fun initObserver() {
         cartViewModel.dataStoreCart.observe(this) {
             val type: Type = object : TypeToken<ArrayList<CartBook?>?>() {}.type
-            val cart: ArrayList<CartBook> = Gson().fromJson(it, type)
+            val cart: ArrayList<CartBook> = Gson().fromJson(it, type) ?: arrayListOf()
             adapter.setBooks(cart)
         }
         cartViewModel.checkQuantityState.observe(this) {

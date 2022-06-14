@@ -84,7 +84,7 @@ class BookDetailFragment : Fragment() {
     private fun initActions() {
         bookDetailViewModel.dataStoreCart.observe(viewLifecycleOwner) {
             val type: Type = object : TypeToken<ArrayList<CartBook?>?>() {}.type
-            cart = Gson().fromJson(it, type)
+            cart = Gson().fromJson(it, type) ?: arrayListOf()
         }
 
         bookDetailBinding.commentButton.setOnClickListener {
